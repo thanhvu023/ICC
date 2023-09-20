@@ -1,12 +1,24 @@
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import Signup from './components/Signup';
+
 
 export default function App() {
+  const Stack = createNativeStackNavigator();
   return (
-    <View style={styles.container}>
-      <Text>IT CAN COOK</Text>
-      <StatusBar style="auto" />
-    </View>
+<NavigationContainer>
+  <Stack.Navigator initialRouteName="SIGNUP">
+    <Stack.Screen
+    name='SIGNUP'
+    component={Signup}
+    options={{headerShown: false}}
+    />
+       
+  </Stack.Navigator>
+
+</NavigationContainer>
   );
 }
 
