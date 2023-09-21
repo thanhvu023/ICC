@@ -2,9 +2,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import Onbroading from './components/Onbroading';
-import Account from './navigation/Account';
-import CreateAccPage from './components/CreateAccPage';
+import Onbroading from './screens/Onboarding/Onbroading';
 
 
 export default function App() {
@@ -17,11 +15,7 @@ export default function App() {
     component={Onbroading}
     options={{headerShown: false}}
     />
-        <Stack.Screen
-    name='CREATEACC'
-    component={CreateAccPage}
-    options={{headerShown: false}}
-    />
+       
   </Stack.Navigator>
 
 </NavigationContainer>

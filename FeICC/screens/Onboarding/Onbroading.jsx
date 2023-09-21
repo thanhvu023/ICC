@@ -3,7 +3,6 @@ import React, { useEffect, useRef } from 'react';
 import Onboarding from 'react-native-onboarding-swiper';
 import LottieView from 'lottie-react-native';
 import { useNavigation } from '@react-navigation/native';
-import NextButton from '../custome/NextButton';
 export default function Onbroading() {
     const navigation = useNavigation();
     const animationRef = useRef<LottieView>(null);
@@ -30,7 +29,7 @@ export default function Onbroading() {
             <View style={styles.lottie}>
               <LottieView
               style={{flex: 1}}
-                source={require('../assets/animations/ani1.json')}
+                source={require('../../assets/animations/ani1.json')}
                 autoPlay
                 loop
               />
@@ -40,36 +39,36 @@ export default function Onbroading() {
           subtitle: '1500+ bữa ăn tiêu chuẩn giúp bạn đủ chất mà vẫn “khoẻ túi tiền”',
         },
         {
-            backgroundColor: '#fff',
-            image: (
-              <View style={styles.lottie}>
-                <LottieView
-                style={{flex: 1}}
-                  source={require('../assets/animations/test2.json')}
-                  autoPlay
-                  loop
-                />
-              </View>
-            ),
-            title: 'Cần gì ư? Chúng tôi có đủ!',
-            subtitle: 'Kết nối với những đối tác siêu thị ngon-bổ-rẻ ',
-          },
-          {
-            backgroundColor: '#fff',
-            image: (
-              <View style={styles.lottie}>
-                <LottieView
-                style={{flex: 1}}
-                  source={require('../assets/animations/test2.json')}
-                  autoPlay
-                  loop
-                />
-              </View>
-            ),
-            title: 'Kết nối với nhiều chuyên gia',
-            subtitle: 'Bạn có thắc  ắc? Hãy trò chuyện với những đầu bếp thật nhé',
+          backgroundColor: '#fff',
+          image: (
+            <View style={styles.lottie}>
+              <LottieView
+              style={{flex: 1}}
+                source={require('../../assets/animations/test2.json')}
+                autoPlay
+                loop
+              />
+            </View>
+          ),
+          title: 'Cần gì ư? Chúng tôi có đủ!',
+          subtitle: 'Kết nối với những đối tác siêu thị ngon-bổ-rẻ ',
+        },
+        {
+          backgroundColor: '#fff',
+          image: (
+            <View style={styles.lottie}>
+              <LottieView
+              style={{flex: 1}}
+                source={require('../../assets/animations/ani1.json')}
+                autoPlay
+                loop
+              />
+            </View>
+          ),
+          title: 'Kết nối với nhiều chuyên gia',
+          subtitle: 'Bạn có thắc  ắc? Hãy trò chuyện với những đầu bếp thật nhé',
 
-          },
+        },
       ]}
       
     />
