@@ -12,7 +12,7 @@ export default function Onbroading() {
         animationRef.current?.play(30, 120);
       }, []);
     const handleDone = () =>{
-        navigation.navigate('CREATEACC')
+        navigation.navigate('WELCOME')
     }
   return (
     <View style={styles.container}>
@@ -59,7 +59,7 @@ export default function Onbroading() {
             <View style={styles.lottie}>
               <LottieView
               style={{flex: 1}}
-                source={require('../../assets/animations/ani1.json')}
+                source={require('../../assets/animations/chef.json')}
                 autoPlay
                 loop
               />

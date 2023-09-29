@@ -4,6 +4,8 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import Onbroading from './screens/Onboarding/Onbroading';
 import Tutorial from './screens/Tutorial/Tutorail';
+import Signup from './screens/Account/Signup';
+import Welcome from './screens/Account/Welcome';
 
 export default function App() {
     const Stack = createNativeStackNavigator();
@@ -11,10 +13,18 @@ export default function App() {
         <NavigationContainer>
             <Stack.Navigator initialRouteName="ONBROADING">
                 {/* <Stack.Screen
-    name='ONBROADING'
-    component={Onbroading}
+    name='ACCOUNT'
+    component={Signup}
     options={{headerShown: false}}
-    /> */}
+    />
+
+<Stack.Screen
+    name='WELCOME'
+    component={Welcome}
+    options={{headerShown: false}}
+    />
+  </Stack.Navigator>
+>>>>>>> main */}
 
                 <Stack.Screen name="Tutorial" component={Tutorial} options={{ headerShown: false }} />
             </Stack.Navigator>

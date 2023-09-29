@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import { View, StyleSheet, Image, Text, TouchableOpacity, Dimensions } from 'react-native';
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
 
 const Step_Picture = [
     {
         url: require('../../assets/StepImage/Step1.png'),
-        title: 'Sơ chế nguyên liệu',
+        title: 'Sơ chế nguyên liệu aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
         id: '1',
     },
     {
@@ -27,9 +27,15 @@ const Step_Picture = [
 
 const { width } = Dimensions.get('window');
 function Tutorial() {
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const swiperRef = useRef(null);
+
     const handleContinue = () => {
-        // Xử lý khi người dùng nhấn nút Tiếp tục
-        // Ví dụ: Chuyển sang slide tiếp theo
+        if (swiperRef.current.getCurrentIndex() < Step_Picture.length - 1) {
+            swiperRef.current.scrollToIndex({ index: swiperRef.current.getCurrentIndex() + 1 });
+        } else {
+            // Xử lý khi người dùng nhấn nút "Hoàn Thành"
+        }
     };
     const handleElse = () => {
         // Xử lý khi người dùng nhấn nút Tiếp tục
@@ -47,10 +53,10 @@ function Tutorial() {
             </View>
 
             <SwiperFlatList
-                index={2}
-                showPagination
+                index={0}
                 data={Step_Picture}
                 snapToAlignment="center"
+                ref={swiperRef}
                 style={styles.wrapper}
                 renderItem={({ item, index }) => (
                     <View key={item.id} style={styles.slide}>
@@ -60,13 +66,27 @@ function Tutorial() {
                             </View>
                             <View style={styles.blueBox}>
                                 <Text style={styles.stepTitle}>{item.title}</Text>
+                                <View style={styles.row}>
+                                    <Text style={styles.leftContent}>
+                                        Bước {index + 1}/{Step_Picture.length}
+                                    </Text>
+                                    <Text style={styles.rightContent}>Xem tất cả</Text>
+                                </View>
+                                <View style={styles.progressBarContainer}>
+                                    <View
+                                        style={{
+                                            width: `${((index + 1) / Step_Picture.length) * 100}%`,
+                                            ...styles.progressBar,
+                                        }}
+                                    />
+                                </View>
                                 {index === Step_Picture.length - 1 ? (
-                                    <TouchableOpacity onPress={handleContinue} style={styles.continueButton}>
+                                    <TouchableOpacity onPress={handleElse} style={styles.continueButton}>
                                         <Text style={styles.continueButtonText}>Hoàn Thành</Text>
                                     </TouchableOpacity>
                                 ) : (
-                                    <TouchableOpacity onPress={handleElse} style={styles.continueButton}>
-                                        <Text style={styles.elseButtonText}>Tiếp tục</Text>
+                                    <TouchableOpacity onPress={handleContinue} style={styles.continueButton}>
+                                        <Text style={styles.elseButtonText}>Bước tiếp theo &#x2192;</Text>
                                     </TouchableOpacity>
                                 )}
                             </View>
@@ -109,14 +129,15 @@ const styles = StyleSheet.create({
     slide: {
         flex: 1,
         flexDirection: 'column',
+        width,
     },
     redBox: {
         flex: 1,
-        backgroundColor: 'rgba(198, 227, 229, 0.4)',
         justifyContent: 'center',
         alignItems: 'center',
     },
     blueBox: {
+        width,
         flex: 1,
         backgroundColor: '#fff',
         justifyContent: 'center',
@@ -127,25 +148,63 @@ const styles = StyleSheet.create({
     stepImage: {
         width: 340,
         height: 250,
+        borderRadius: 50,
     },
     stepTitle: {
+        width: '86%',
         fontSize: 18,
-        fontWeight: 'bold',
+
         color: 'black',
     },
     continueButton: {
+        width: '86%',
+        height: 54,
+        color: 'white',
         backgroundColor: 'green',
         paddingVertical: 10,
         paddingHorizontal: 20,
-        borderRadius: 5,
+        borderRadius: 16,
         marginTop: 10,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(4, 38, 40, 1)',
     },
     continueButtonText: {
         color: 'white',
         fontWeight: 'bold',
     },
+    elseButtonText: {
+        color: 'white',
+        fontWeight: 'bold',
+    },
     child: { width, justifyContent: 'center' },
     text: { fontSize: width * 0.5, textAlign: 'center' },
+    progressBarContainer: {
+        width: '86%',
+        height: 8,
+        backgroundColor: 'rgba(255, 122, 0, 0.05)',
+        borderRadius: 6,
+        margin: 10,
+    },
+    progressBar: {
+        height: '100%',
+        backgroundColor: 'rgba(255, 122, 0, 1)', // Màu sắc của tiến trình
+        borderRadius: 5,
+    },
+    leftContent: {
+        fontWeight: 'bold',
+        fontSize: 16,
+        color: 'rgba(255, 122, 0, 1)',
+        flex: 1,
+        // alignItems: 'flex-end',
+    },
+    row: {
+        width: '86%',
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    rightContent: {},
 });
 
 export default Tutorial;
