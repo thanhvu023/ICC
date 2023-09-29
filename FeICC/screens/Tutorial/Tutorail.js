@@ -1,6 +1,19 @@
-import React, { useState, useRef } from 'react';
-import { View, StyleSheet, Image, Text, TouchableOpacity, Dimensions } from 'react-native';
+import React, { useRef, useMemo, useCallback } from 'react';
+import {
+    View,
+    StyleSheet,
+    Image,
+    Text,
+    TouchableOpacity,
+    Dimensions,
+    Animated,
+    PanResponder,
+    ScrollView,
+    Button,
+} from 'react-native';
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
+import { useNavigation } from '@react-navigation/native';
+import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 
 const Step_Picture = [
     {
@@ -10,36 +23,64 @@ const Step_Picture = [
     },
     {
         url: require('../../assets/StepImage/Step2.png'),
-        title: 'Xào thịt',
+        title: 'Xào thịt qqqqqqqqqqqqqqqqqqqqqqqqqqq',
         id: '2',
     },
     {
         url: require('../../assets/StepImage/Step3.png'),
-        title: 'Xào đậu hũ',
+        title: 'Xào đậu hũ qqqqqqqqqqqqqqqqq',
         id: '3',
     },
     {
         url: require('../../assets/StepImage/Step4.png'),
-        title: 'Thành phẩm',
+        title: 'Thành phẩm qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq',
         id: '4',
     },
 ];
 
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 function Tutorial() {
-    const [currentIndex, setCurrentIndex] = useState(0);
+    const navigation = useNavigation();
     const swiperRef = useRef(null);
+    // hooks
+    const sheetRef = useRef(null);
+
+    // variables
+    const data = useMemo(
+        () =>
+            Array(50)
+                .fill(0)
+                .map((_, index) => `index-${index}`),
+        [],
+    );
+    const snapPoints = useMemo(() => ['1%', '80%'], []);
+
+    // callbacks
+    const handleSheetChange = useCallback((index) => {
+        console.log('handleSheetChange', index);
+    }, []);
+    const handleSnapPress = useCallback((index) => {
+        sheetRef.current?.snapToIndex(index);
+    }, []);
+    const handleClosePress = useCallback(() => {
+        sheetRef.current?.close();
+    }, []);
+
+    // render
+    const renderItem = useCallback(
+        (item, index) => (
+            <View key={item} style={styles.itemContainer}>
+                <Text style={styles.stepTitle}>{`${index + 1}`}</Text>
+                <Text>{`${item.title}`}</Text>
+            </View>
+        ),
+        [],
+    );
 
     const handleContinue = () => {
         if (swiperRef.current.getCurrentIndex() < Step_Picture.length - 1) {
             swiperRef.current.scrollToIndex({ index: swiperRef.current.getCurrentIndex() + 1 });
-        } else {
-            // Xử lý khi người dùng nhấn nút "Hoàn Thành"
         }
-    };
-    const handleElse = () => {
-        // Xử lý khi người dùng nhấn nút Tiếp tục
-        // Ví dụ: Chuyển sang slide tiếp theo
     };
 
     return (
@@ -70,7 +111,9 @@ function Tutorial() {
                                     <Text style={styles.leftContent}>
                                         Bước {index + 1}/{Step_Picture.length}
                                     </Text>
-                                    <Text style={styles.rightContent}>Xem tất cả</Text>
+                                    <TouchableOpacity style={styles.rightContent}>
+                                        <Text>Xem tất cả</Text>
+                                    </TouchableOpacity>
                                 </View>
                                 <View style={styles.progressBarContainer}>
                                     <View
@@ -81,7 +124,10 @@ function Tutorial() {
                                     />
                                 </View>
                                 {index === Step_Picture.length - 1 ? (
-                                    <TouchableOpacity onPress={handleElse} style={styles.continueButton}>
+                                    <TouchableOpacity
+                                        onPress={() => navigation.navigate('CompleteTutorial')}
+                                        style={styles.continueButton}
+                                    >
                                         <Text style={styles.continueButtonText}>Hoàn Thành</Text>
                                     </TouchableOpacity>
                                 ) : (
@@ -94,6 +140,11 @@ function Tutorial() {
                     </View>
                 )}
             />
+            <BottomSheet ref={sheetRef} index={1} snapPoints={snapPoints} onChange={handleSheetChange}>
+                <BottomSheetScrollView contentContainerStyle={styles.contentContainer}>
+                    {Step_Picture.map(renderItem)}
+                </BottomSheetScrollView>
+            </BottomSheet>
         </View>
     );
 }
@@ -189,7 +240,7 @@ const styles = StyleSheet.create({
     },
     progressBar: {
         height: '100%',
-        backgroundColor: 'rgba(255, 122, 0, 1)', // Màu sắc của tiến trình
+        backgroundColor: 'rgba(255, 122, 0, 1)',
         borderRadius: 5,
     },
     leftContent: {
@@ -197,7 +248,6 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: 'rgba(255, 122, 0, 1)',
         flex: 1,
-        // alignItems: 'flex-end',
     },
     row: {
         width: '86%',
@@ -205,6 +255,44 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     rightContent: {},
+    bottomSheet: {
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        height: height * 0.8,
+        // height: 200,
+        backgroundColor: 'white',
+        borderTopLeftRadius: 40,
+        borderTopRightRadius: 40,
+        padding: 16,
+        elevation: 4,
+    },
+    scrollView: {
+        paddingVertical: 8,
+    },
+    draggableArea: {
+        height: '10%', // Chiều cao của phần kéo lên kéo xuống
+        backgroundColor: 'red',
+        // Các thiết lập khác cho phần kéo lên kéo xuống
+    },
+    scrollView: {
+        height: '70%', // Chiều cao của ScrollView
+        // Các thiết lập khác cho ScrollView
+    },
+    backButton: {
+        height: '20%',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    contentContainer: {
+        backgroundColor: 'white',
+    },
+    itemContainer: {
+        padding: 6,
+        margin: 6,
+        backgroundColor: '#eee',
+    },
 });
 
 export default Tutorial;

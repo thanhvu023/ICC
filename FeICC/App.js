@@ -1,34 +1,33 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import Onbroading from './screens/Onboarding/Onbroading';
 import Tutorial from './screens/Tutorial/Tutorail';
 import Signup from './screens/Account/Signup';
 import Welcome from './screens/Account/Welcome';
+import CompleteTutorial from './screens/Tutorial/CompleteTutorial';
 
 export default function App() {
     const Stack = createNativeStackNavigator();
     return (
-        <NavigationContainer>
-            <Stack.Navigator initialRouteName="ONBROADING">
-                {/* <Stack.Screen
-    name='ACCOUNT'
-    component={Signup}
-    options={{headerShown: false}}
-    />
+        <GestureHandlerRootView style={{ flex: 1 }}>
+            <NavigationContainer>
+                <Stack.Navigator initialRouteName="Tutorial">
+                    <Stack.Screen name="ACCOUNT" component={Signup} options={{ headerShown: false }} />
 
-<Stack.Screen
-    name='WELCOME'
-    component={Welcome}
-    options={{headerShown: false}}
-    />
-  </Stack.Navigator>
->>>>>>> main */}
+                    <Stack.Screen name="WELCOME" component={Welcome} options={{ headerShown: false }} />
 
-                <Stack.Screen name="Tutorial" component={Tutorial} options={{ headerShown: false }} />
-            </Stack.Navigator>
-        </NavigationContainer>
+                    <Stack.Screen name="Tutorial" component={Tutorial} options={{ headerShown: false }} />
+                    <Stack.Screen
+                        name="CompleteTutorial"
+                        component={CompleteTutorial}
+                        options={{ headerShown: false }}
+                    />
+                </Stack.Navigator>
+            </NavigationContainer>
+        </GestureHandlerRootView>
     );
 }
 
