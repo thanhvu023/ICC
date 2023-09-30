@@ -18,22 +18,22 @@ import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 const Step_Picture = [
     {
         url: require('../../assets/StepImage/Step1.png'),
-        title: 'Sơ chế nguyên liệu aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+        title: 'Cho nấm khô và tảo bẹ kombu vào chén nhỏ hoặc và đổ nước phủ bề mặt.Đặt một miêng khăn giấy lên mặt nước để giữ nấm ngấm đều nước trong 10 phút.',
         id: '1',
     },
     {
         url: require('../../assets/StepImage/Step2.png'),
-        title: 'Xào thịt qqqqqqqqqqqqqqqqqqqqqqqqqqq',
+        title: 'Xay nhuyễn nấm mỡ, xào lửa lớn với dầu thực vật liên tục cho đến khi nấm khô lại và chín vàng đều trong 6 đến 10 phút.Chắt dầu ra chén nhỏ, lấy nấm mỡ đã xào cho một một cái tô cỡ vừa, rồi đổ dầu lại vào chảo.',
         id: '2',
     },
     {
         url: require('../../assets/StepImage/Step3.png'),
-        title: 'Xào đậu hũ qqqqqqqqqqqqqqqqq',
+        title: 'Quay lại chén nấm khô, chắt nước và chừa lại 3/4 cốc nước ngâm. Cho bột bắp và nước tương vào nước ngâm. Xắt nhỏ nấm khô, sau đó cho vào chung với nấm mỡ vừa chiên.',
         id: '3',
     },
     {
         url: require('../../assets/StepImage/Step4.png'),
-        title: 'Thành phẩm qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq',
+        title: 'Cho toàn bộ hạt tiêu Tứ Xuyên và ớt vào chảo dầu và đun ở lửa lớn. Nấu cho đến khi toả mùi thơm. Chứ ý không nấu quá chín, đề phòng cháy.Chắt dầu lưới lọc mịn, bỏ hạt tiêu và ớt đi, rồi cho dầu trở lại chảo.',
         id: '4',
     },
 ];
@@ -42,35 +42,28 @@ const { width, height } = Dimensions.get('window');
 function Tutorial() {
     const navigation = useNavigation();
     const swiperRef = useRef(null);
+
     // hooks
     const sheetRef = useRef(null);
 
-    // variables
-    const data = useMemo(
-        () =>
-            Array(50)
-                .fill(0)
-                .map((_, index) => `index-${index}`),
-        [],
-    );
     const snapPoints = useMemo(() => ['1%', '80%'], []);
 
     // callbacks
     const handleSheetChange = useCallback((index) => {
         console.log('handleSheetChange', index);
     }, []);
-    const handleSnapPress = useCallback((index) => {
-        sheetRef.current?.snapToIndex(index);
+    const handleSnapPress = useCallback(() => {
+        sheetRef.current?.snapToIndex(1);
     }, []);
     const handleClosePress = useCallback(() => {
         sheetRef.current?.close();
     }, []);
 
-    // render
+    // render bottomsheet
     const renderItem = useCallback(
         (item, index) => (
-            <View key={item} style={styles.itemContainer}>
-                <Text style={styles.stepTitle}>{`${index + 1}`}</Text>
+            <View key={index} style={styles.itemContainer}>
+                <Text style={styles.stepTitleBottomSheet}>BƯỚC {`${index + 1}`}</Text>
                 <Text>{`${item.title}`}</Text>
             </View>
         ),
@@ -111,7 +104,7 @@ function Tutorial() {
                                     <Text style={styles.leftContent}>
                                         Bước {index + 1}/{Step_Picture.length}
                                     </Text>
-                                    <TouchableOpacity style={styles.rightContent}>
+                                    <TouchableOpacity style={styles.rightContent} onPress={handleSnapPress}>
                                         <Text>Xem tất cả</Text>
                                     </TouchableOpacity>
                                 </View>
@@ -140,10 +133,19 @@ function Tutorial() {
                     </View>
                 )}
             />
-            <BottomSheet ref={sheetRef} index={1} snapPoints={snapPoints} onChange={handleSheetChange}>
+            <BottomSheet
+                style={styles.bottomSheetContainer}
+                ref={sheetRef}
+                index={0}
+                snapPoints={snapPoints}
+                onChange={handleSheetChange}
+            >
                 <BottomSheetScrollView contentContainerStyle={styles.contentContainer}>
                     {Step_Picture.map(renderItem)}
                 </BottomSheetScrollView>
+                <TouchableOpacity onPress={handleClosePress} style={styles.backBottomSheet}>
+                    <Text style={styles.elseButtonText}>Quay lại</Text>
+                </TouchableOpacity>
             </BottomSheet>
         </View>
     );
@@ -211,7 +213,6 @@ const styles = StyleSheet.create({
         width: '86%',
         height: 54,
         color: 'white',
-        backgroundColor: 'green',
         paddingVertical: 10,
         paddingHorizontal: 20,
         borderRadius: 16,
@@ -255,30 +256,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     rightContent: {},
-    bottomSheet: {
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        height: height * 0.8,
-        // height: 200,
-        backgroundColor: 'white',
-        borderTopLeftRadius: 40,
-        borderTopRightRadius: 40,
-        padding: 16,
-        elevation: 4,
-    },
     scrollView: {
-        paddingVertical: 8,
-    },
-    draggableArea: {
-        height: '10%', // Chiều cao của phần kéo lên kéo xuống
-        backgroundColor: 'red',
-        // Các thiết lập khác cho phần kéo lên kéo xuống
-    },
-    scrollView: {
-        height: '70%', // Chiều cao của ScrollView
-        // Các thiết lập khác cho ScrollView
+        height: '70%',
     },
     backButton: {
         height: '20%',
@@ -291,7 +270,31 @@ const styles = StyleSheet.create({
     itemContainer: {
         padding: 6,
         margin: 6,
-        backgroundColor: '#eee',
+        backgroundColor: 'white',
+        borderColor: 'rgba(151, 162, 176, 1)',
+        borderBottomWidth: 1,
+    },
+    bottomSheetContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    backBottomSheet: {
+        width: '100%',
+        height: 54,
+        color: 'white',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 16,
+        marginTop: 10,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(4, 38, 40, 1)',
+    },
+    stepTitleBottomSheet: {
+        color: 'rgba(255, 122, 0, 1)',
+        fontWeight: 'bold',
+        fontSize: 12,
     },
 });
 
