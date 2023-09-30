@@ -5,8 +5,12 @@ import Tutorial from '../screens/Tutorial/Tutorail';
 import CompleteTutorial from '../screens/Tutorial/CompleteTutorial';
 import Welcome from '../screens/Account/Welcome';
 import { Image } from 'react-native';
+import { createStackNavigator } from '@react-navigation/stack';
+import DetailProfile from '../screens/Profile/DetailProfile';
 
 const Tab = createBottomTabNavigator();
+
+const ProfileStack = createStackNavigator();
 
 function BottomTabNavigator() {
     return (
@@ -14,6 +18,7 @@ function BottomTabNavigator() {
             initialRouteName="Profile"
             screenOptions={({ route }) => ({
                 tabBarActiveTintColor: '#FF7A00',
+                tabBarLabel: () => null,
                 tabBarIcon: ({ focused }) => {
                     let iconSource;
                     let routeName = route.name;
@@ -33,9 +38,21 @@ function BottomTabNavigator() {
             <Tab.Screen name="Home" component={Tutorial} options={{ headerShown: false }} />
             <Tab.Screen name="Discover" component={CompleteTutorial} options={{ headerShown: false }} />
             <Tab.Screen name="Leaderboard" component={Welcome} options={{ headerShown: false }} />
-            <Tab.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
+            <Tab.Screen name="Profile" component={ProfileStackScreens} options={{ headerShown: false }} />
         </Tab.Navigator>
     );
 }
 
 export default BottomTabNavigator;
+
+const ProfileStackScreens = () => (
+    <ProfileStack.Navigator
+        initialRouteName="Profile"
+        screenOptions={{
+            headerTitleAlign: 'center', // Để căn giữa tiêu đề
+        }}
+    >
+        <ProfileStack.Screen name="ProfileOutlook" component={Profile} options={{ title: 'Góc của tôi' }} />
+        <ProfileStack.Screen name="DetailProfile" component={DetailProfile} />
+    </ProfileStack.Navigator>
+);
