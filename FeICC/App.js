@@ -7,14 +7,16 @@ import Onbroading from './screens/Onboarding/Onbroading';
 import Tutorial from './screens/Tutorial/Tutorail';
 import Signup from './screens/Account/Signup';
 import Welcome from './screens/Account/Welcome';
+import Profile from './screens/Profile/Profile';
 import CompleteTutorial from './screens/Tutorial/CompleteTutorial';
+import BottomTabNavigator from './navigation/BottomTabNavigator';
 
 export default function App() {
     const Stack = createNativeStackNavigator();
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
             <NavigationContainer>
-                <Stack.Navigator initialRouteName="Tutorial">
+                <Stack.Navigator initialRouteName="BottomTabNavigator">
                     <Stack.Screen name="ACCOUNT" component={Signup} options={{ headerShown: false }} />
 
                     <Stack.Screen name="WELCOME" component={Welcome} options={{ headerShown: false }} />
@@ -23,6 +25,12 @@ export default function App() {
                     <Stack.Screen
                         name="CompleteTutorial"
                         component={CompleteTutorial}
+                        options={{ headerShown: false }}
+                    />
+
+                    <Stack.Screen
+                        name="BottomTabNavigator"
+                        component={BottomTabNavigator}
                         options={{ headerShown: false }}
                     />
                 </Stack.Navigator>
