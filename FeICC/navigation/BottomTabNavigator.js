@@ -49,10 +49,10 @@ const ProfileStackScreens = () => (
     <ProfileStack.Navigator
         initialRouteName="Profile"
         screenOptions={{
-            headerTitleAlign: 'center', // Để căn giữa tiêu đề
+            headerTitleAlign: 'center',
         }}
     >
         <ProfileStack.Screen name="ProfileOutlook" component={Profile} options={{ title: 'Góc của tôi' }} />
-        <ProfileStack.Screen name="DetailProfile" component={DetailProfile} />
+        {/* <ProfileStack.Screen name="DetailProfile" component={DetailProfile} options={{ title: 'Hồ sơ cá nhân' }} /> */}
     </ProfileStack.Navigator>
 );
