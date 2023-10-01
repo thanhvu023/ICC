@@ -1,15 +1,27 @@
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 const userData = {
     name: 'Trần Hoàng Lâm',
     username: 'johndoe123',
-    bio: 'Frontend Developer',
-    profileImage: require('../../assets/StepImage/Step4.png'), // Đường dẫn đến hình ảnh của người dùng
+    profileImage: require('../../assets/StepImage/Step4.png'),
 };
 
 function Profile() {
     const navigation = useNavigation();
+    const showDevelopmentAlert = () => {
+        Alert.alert(
+            'Thông báo',
+            'Tính năng đang được phát triển',
+            [
+                {
+                    text: 'OK',
+                    onPress: () => console.log('OK Pressed'),
+                },
+            ],
+            { cancelable: false },
+        );
+    };
     return (
         <View style={styles.container}>
             <View style={styles.profileBox}>
@@ -28,7 +40,7 @@ function Profile() {
                 <Text style={styles.premiumComment}>Và nhận 1000+ món ăn mới</Text>
             </View>
             <View style={styles.myDishesBox}>
-                <TouchableOpacity onPress={() => navigation.navigate('DetailProfile')} style={styles.myDishesButton}>
+                <TouchableOpacity onPress={showDevelopmentAlert} style={styles.myDishesButton}>
                     <Image
                         source={require('../../assets/ProfileIcon/myDishes.png')}
                         style={styles.buttonDishes}
@@ -36,10 +48,7 @@ function Profile() {
                     />
                     <Text>Bữa ăn của tôi</Text>
                 </TouchableOpacity>
-                <TouchableOpacity
-                    onPress={() => navigation.navigate('DetailProfile')}
-                    style={styles.favoriteDishesButton}
-                >
+                <TouchableOpacity onPress={showDevelopmentAlert} style={styles.favoriteDishesButton}>
                     <Image
                         source={require('../../assets/ProfileIcon/favoriteDishes.png')}
                         style={styles.buttonDishes}
@@ -49,7 +58,7 @@ function Profile() {
                 </TouchableOpacity>
             </View>
             <View style={styles.notiBox}>
-                <View style={styles.notiContent}>
+                <View onPress={showDevelopmentAlert} style={styles.notiContent}>
                     <Image
                         source={require('../../assets/ProfileIcon/noti.png')}
                         style={styles.buttonDetail}
@@ -57,7 +66,7 @@ function Profile() {
                     />
                     <Text style={styles.notiTextContent}>Thông báo</Text>
                 </View>
-                <TouchableOpacity onPress={() => navigation.navigate('DetailProfile')} style={styles.buttonDetail}>
+                <TouchableOpacity onPress={showDevelopmentAlert} style={styles.buttonDetail}>
                     <Image
                         source={require('../../assets/arrowRight.png')}
                         style={styles.buttonDetail}
@@ -74,7 +83,7 @@ function Profile() {
                     />
                     <Text style={styles.notiTextContent}>Trợ giúp</Text>
                 </View>
-                <TouchableOpacity onPress={() => navigation.navigate('DetailProfile')} style={styles.buttonDetail}>
+                <TouchableOpacity onPress={showDevelopmentAlert} style={styles.buttonDetail}>
                     <Image
                         source={require('../../assets/arrowRight.png')}
                         style={styles.buttonDetail}
@@ -87,7 +96,7 @@ function Profile() {
                     <Text style={styles.rateText}>Bạn thích dùng ICC?</Text>
                     <Text style={styles.rateText}>Hãy cho chúng tôi 5 sao nhé!</Text>
                 </View>
-                <TouchableOpacity onPress={() => navigation.navigate('DetailProfile')} style={styles.rateButton}>
+                <TouchableOpacity onPress={showDevelopmentAlert} style={styles.rateButton}>
                     <Text style={styles.rateTextButton}>Đánh giá</Text>
                 </TouchableOpacity>
             </View>
