@@ -1,12 +1,11 @@
 import React from 'react';
-import { View, Text, SafeAreaView, TextInput, StyleSheet } from 'react-native';
+import { View, Text, SafeAreaView, TextInput, StyleSheet, Pressable } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import TextBox from 'react-native-password-eye';
 import COLORS from '../../components/colors';
 import { useState } from 'react';
-import {TouchableOpacity} from 'react-native'
 import { useNavigation } from '@react-navigation/native';
-export default function Signup() {
+export default function Signin() {
   const [password, setPassword] = useState();
   const navigation = useNavigation(); 
 
@@ -53,7 +52,7 @@ export default function Signup() {
          
           </View>
         </View>
-        <TouchableOpacity
+        <Pressable
             style={{
               backgroundColor: '#000',
               width: '100%', 
@@ -70,15 +69,15 @@ export default function Signup() {
               color: '#FFFFFF', 
               textAlign: 'center', 
             }}>Đăng nhập</Text>
-          </TouchableOpacity>
+          </Pressable>
       
-       <TouchableOpacity style={{
+       <Pressable style={{
         marginTop:20,
         flex:1,
         opacity:0.6,
         alignItems:'center',
        }}
-       onPress={() => navigation.navigate('WELCOME')}><Text>Bạn quên mật khẩu?</Text></TouchableOpacity>
+       onPress={() => navigation.navigate('FORGOTPASSWORD')}><Text>Bạn quên mật khẩu?</Text></Pressable>
 
 <Text style={{
    marginTop:20,
@@ -91,7 +90,7 @@ export default function Signup() {
         
         </Text>
        
-        <TouchableOpacity
+        <Pressable
             style={{
               backgroundColor: '#F06155',
               width: '100%', 
@@ -112,8 +111,8 @@ export default function Signup() {
               color: '#FFFFFF', 
               textAlign: 'center', 
             }}>Đăng nhập với Google</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
+          </Pressable>
+          <Pressable
             style={{
               backgroundColor: '#1E75D3',
               width: '100%', 
@@ -135,7 +134,7 @@ export default function Signup() {
               color: '#FFFFFF', 
               textAlign: 'center', 
             }}>Đăng nhập với Facebook</Text>
-          </TouchableOpacity>
+          </Pressable>
 
       </View>
     </SafeAreaView>
