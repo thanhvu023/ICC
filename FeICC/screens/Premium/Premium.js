@@ -16,6 +16,9 @@ function Premium() {
 
   return (
     <View style={styles.container}>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+        <Text style={styles.backButtonText}>←</Text>
+      </TouchableOpacity>
       <Text style={styles.title}>Premium</Text>
       <Button title='Show Modal' onPress={() => setShow(true)} />
 
@@ -108,5 +111,14 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     textAlign: 'center',
   },
+  backButton: {
+    position: 'absolute',
+    left: 20,
+    top: 20,
+  },
+  backButtonText: {
+    fontSize: 24,
+  },
+  
 });
 export default Premium;

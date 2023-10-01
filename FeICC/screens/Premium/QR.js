@@ -90,4 +90,5 @@ const styles = StyleSheet.create({
   backButtonText: {
     fontSize: 24,
   },
+  
 });

@@ -14,9 +14,15 @@ export default function Signup() {
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
       <View style={{ flex: 1, marginHorizontal: 22 }}>
         <View style={{ marginVertical: 22 }}>
-          <Text style={styles.heading}>
+        <View>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+        <Text style={styles.backButtonText}>←</Text>
+      </TouchableOpacity>
+      <Text style={styles.heading}>
             Đăng nhập
           </Text>
+          </View>
+          
           <Text style={styles.subHeading}>
             Email hoặc số điện thoại
           </Text>
@@ -147,6 +153,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: 'bold',
     marginVertical: 12,
+    marginLeft:130,
     color: COLORS.black,
   },
   subHeading: {
@@ -188,5 +195,12 @@ const styles = StyleSheet.create({
     color: COLORS.black,
   
   },
-
+  backButton: {
+ 
+   
+  },
+  backButtonText: {
+    fontSize: 24,
+  },
+  
 });
