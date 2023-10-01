@@ -7,6 +7,7 @@ import Signin from "./screens/Account/Signin";
 import SignUpNew from "./screens/Account/SignUpNew";
 import Welcome from "./screens/Account/Welcome";
 import ConfirmOTP from "./screens/Account/ConfirmOTP";
+import NewPassword from "./screens/Account/NewPassword";
 import ForgotPassword from "./screens/Account/ForgotPassword";
 
 export default function App() {
@@ -37,6 +38,11 @@ export default function App() {
         <Stack.Screen
           name="FORGOTPASSWORD"
           component={ForgotPassword}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="NEWPASSWORD"
+          component={NewPassword}
           options={{ headerShown: false }}
         />
         <Stack.Screen

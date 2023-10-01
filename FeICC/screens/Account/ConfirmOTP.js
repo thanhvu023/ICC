@@ -43,7 +43,7 @@ export default function ConfirmOTP() {
               marginTop: 50,
             }}
 
-            // onPress={() => navigation.navigate("ACCOUNT")}
+            onPress={() => navigation.navigate("NEWPASSWORD")}
           >
             <Text
               style={{
