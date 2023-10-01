@@ -5,6 +5,8 @@ import { StyleSheet, Text, View } from 'react-native';
 import Onbroading from './screens/Onboarding/Onbroading';
 import Signup from './screens/Account/Signup';
 import Welcome from './screens/Account/Welcome';
+import Premium from './screens/Premium/Premium';
+import QR from './screens/Premium/QR';
 
 
 export default function App() {
@@ -26,6 +28,16 @@ export default function App() {
 <Stack.Screen
     name='WELCOME'
     component={Welcome}
+    options={{headerShown: false}}
+    />
+    <Stack.Screen
+    name='PREMIUM'
+    component={Premium}
+    options={{headerShown: false}}
+    />
+    <Stack.Screen
+    name='QRSCAN'
+    component={QR}
     options={{headerShown: false}}
     />
   </Stack.Navigator>

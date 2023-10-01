@@ -125,7 +125,7 @@ export default function Signup() {
               marginTop: 20,
               marginBottom:10 
             }}
-            onPress={() => navigation.navigate('ACCOUNT')}
+            onPress={() => navigation.navigate('PREMIUM')}
 
           >
                           <Icon name="facebook" size={18} color="#FFFFFF" style={{ marginRight: 10 }} />
