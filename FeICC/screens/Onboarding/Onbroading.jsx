@@ -20,7 +20,7 @@ export default function Onbroading() {
  onDone={handleDone}
  onSkip={handleDone}
  bottomBarColor='red'
- 
+ bottomBarHighlight={false}
       containerStyles={{ paddingHorizontal: 15 }}
       pages={[
         {
