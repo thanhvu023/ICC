@@ -5,7 +5,7 @@ import RangeSlider from '../../navigation/RangeSlider';
 import { useNavigation } from '@react-navigation/native';
 
 const foodData = [
-    { id: 1, name: 'Bánh Mì', isNew: true },
+    { id: 1, name: 'Đậu hủ tứ xuyên', isNew: true },
     { id: 2, name: 'Phở', isNew: false },
     { id: 3, name: 'Hủ tiếu bò kho', isNew: false },
     { id: 4, name: 'Gỏi cuốn tôm thịt', isNew: true },

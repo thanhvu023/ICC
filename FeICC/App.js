@@ -4,14 +4,12 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import Tutorial from './screens/Tutorial/Tutorail';
-import Signup from './screens/Account/Signup';
-import Welcome from './screens/Account/Welcome';
+import SignUpNew from './screens/Account/SignUpNew';
 import CompleteTutorial from './screens/Tutorial/CompleteTutorial';
 import BottomTabNavigator from './navigation/BottomTabNavigator';
 import DetailProfile from './screens/Profile/DetailProfile';
 import KitchenCabinets from './screens/KitchenCabinets/KitchenCabinets';
 import Signin from './screens/Account/Signin';
-import SignUpNew from './screens/Account/SignUpNew';
 import Welcome from './screens/Account/Welcome';
 import ConfirmOTP from './screens/Account/ConfirmOTP';
 import NewPassword from './screens/Account/NewPassword';
@@ -26,12 +24,12 @@ export default function App() {
         <GestureHandlerRootView style={{ flex: 1 }}>
             <NavigationContainer>
                 <Stack.Navigator
-                    initialRouteName="BottomTabNavigator"
+                    initialRouteName="ONBROADING"
                     screenOptions={{
                         headerTitleAlign: 'center',
                     }}
                 >
-                    <Stack.Screen name="ONBROADING" component={Onbroading2} options={{ headerShown: false }} />
+                    <Stack.Screen name="ONBROADING" component={Onboarding2} options={{ headerShown: false }} />
                     <Stack.Screen name="ACCOUNT" component={Signin} options={{ headerShown: false }} />
 
                     <Stack.Screen name="WELCOME" component={Welcome} options={{ headerShown: false }} />

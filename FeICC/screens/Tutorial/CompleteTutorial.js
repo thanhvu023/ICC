@@ -1,7 +1,9 @@
 import { View, StyleSheet, Image, Text, TouchableOpacity, Dimensions } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const { width } = Dimensions.get('window');
 function CompleteTutorial() {
+    const navigation = useNavigation();
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -18,7 +20,10 @@ function CompleteTutorial() {
                     <Text style={styles.yeah}> Yeah!</Text>
                     <Text style={styles.message}>Món ăn đã hoàn tất. Bon appétit!</Text>
 
-                    <TouchableOpacity style={styles.completeButton}>
+                    <TouchableOpacity
+                        style={styles.completeButton}
+                        onPress={() => navigation.navigate('KitchenCabinets')}
+                    >
                         <Text style={styles.completeButtonText}>Ăn thôi!</Text>
                     </TouchableOpacity>
                 </View>
