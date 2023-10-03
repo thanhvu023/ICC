@@ -1,16 +1,5 @@
 import React, { useRef, useMemo, useCallback } from 'react';
-import {
-    View,
-    StyleSheet,
-    Image,
-    Text,
-    TouchableOpacity,
-    Dimensions,
-    Animated,
-    PanResponder,
-    ScrollView,
-    Button,
-} from 'react-native';
+import { View, StyleSheet, Image, Text, TouchableOpacity, Dimensions } from 'react-native';
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
 import { useNavigation } from '@react-navigation/native';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
@@ -38,7 +27,7 @@ const Step_Picture = [
     },
 ];
 
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 function Tutorial() {
     const navigation = useNavigation();
     const swiperRef = useRef(null);
