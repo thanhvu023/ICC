@@ -21,6 +21,9 @@ export default function SignUpNew() {
       <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
         <View style={{ flex: 1, marginHorizontal: 22 }}>
           <View style={{ marginVertical: 22 }}>
+          <Pressable onPress={() => navigation.goBack()} style={styles.backButton}>
+        <Text style={styles.backButtonText}>←</Text>
+      </Pressable>
             <Text style={styles.heading}>Tạo tài khoản</Text>
             <View style={styles.bodyForm}>
               <Text style={styles.subHeading}>Họ và tên</Text>
@@ -184,5 +187,10 @@ const styles = StyleSheet.create({
   underline: {
     textDecorationLine: "underline",
     fontWeight: "bold",
+  },
+  backButtonText: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: COLORS.black,
   },
 });

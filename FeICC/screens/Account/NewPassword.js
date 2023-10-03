@@ -20,6 +20,9 @@ export default function NewPassword() {
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
       <View style={{ flex: 1, marginHorizontal: 22 }}>
         <View style={{ marginVertical: 22 }}>
+        <Pressable onPress={() => navigation.goBack()} style={styles.backButton}>
+        <Text style={styles.backButtonText}>←</Text>
+      </Pressable>
           <Text style={styles.heading}>Tạo mật khẩu mới</Text>
           <Text style={{ fontSize: 16, color: "#48525F" }}>
             Mật khẩu mới của bạn phải khác với các mật khẩu trước
@@ -133,6 +136,11 @@ const styles = StyleSheet.create({
   inputPassword: {
     flex: 1,
     fontSize: 16,
+    color: COLORS.black,
+  },
+  backButtonText: {
+    fontSize: 32,
+    fontWeight: 'bold',
     color: COLORS.black,
   },
 });

@@ -2,8 +2,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import Signup from './screens/Account/Signup';
-import Welcome from './screens/Account/Welcome';
 import Premium from './screens/Premium/Premium';
 import QR from './screens/Premium/QR';
 import Onbroading from "./screens/Onboarding/Onbroading";
@@ -13,6 +11,7 @@ import Welcome from "./screens/Account/Welcome";
 import ConfirmOTP from "./screens/Account/ConfirmOTP";
 import NewPassword from "./screens/Account/NewPassword";
 import ForgotPassword from "./screens/Account/ForgotPassword";
+import Onboarding2 from './screens/Onboarding/custome/Onboarding2';
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -21,12 +20,12 @@ export default function App() {
   <Stack.Navigator initialRouteName="ONBROADING">
     <Stack.Screen
     name='ONBROADING'
-    component={Onbroading}
+    component={Onboarding2}
     options={{headerShown: false}}
     />
            <Stack.Screen
     name='ACCOUNT'
-    component={Signup}
+    component={Signin}
     options={{headerShown: false}}
     />
 
@@ -58,6 +57,11 @@ export default function App() {
         <Stack.Screen
           name="CONFIRMOTP"
           component={ConfirmOTP}
+          options={{ headerShown: false }}
+        />
+         <Stack.Screen
+          name="SIGNUP"
+          component={SignUpNew}
           options={{ headerShown: false }}
         />
   </Stack.Navigator>

@@ -14,9 +14,9 @@ export default function Signin() {
       <View style={{ flex: 1, marginHorizontal: 22 }}>
         <View style={{ marginVertical: 22 }}>
         <View>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+        <Pressable onPress={() => navigation.goBack()} style={styles.backButton}>
         <Text style={styles.backButtonText}>←</Text>
-      </TouchableOpacity>
+      </Pressable>
       <Text style={styles.heading}>
             Đăng nhập
           </Text>
@@ -195,11 +195,15 @@ const styles = StyleSheet.create({
   
   },
   backButton: {
- 
+    
    
   },
   backButtonText: {
     fontSize: 24,
   },
-  
+  backButtonText: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: COLORS.black,
+  },
 });

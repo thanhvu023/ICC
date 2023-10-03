@@ -18,6 +18,9 @@ export default function ForgotPassword() {
       <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
         <View style={{ flex: 1, marginHorizontal: 22 }}>
           <View style={{ marginVertical: 22 }}>
+          <Pressable onPress={() => navigation.goBack()} style={styles.backButton}>
+        <Text style={styles.backButtonText}>←</Text>
+      </Pressable>
             <Text style={styles.heading}>Quên mật khẩu</Text>
             <Text>
               Xác nhận email cá nhân của bạn. Chúng tôi sẽ gửi mã xác nhận đến
@@ -103,6 +106,11 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     fontSize: 14,
+    color: COLORS.black,
+  },
+  backButtonText: {
+    fontSize: 32,
+    fontWeight: 'bold',
     color: COLORS.black,
   },
 });

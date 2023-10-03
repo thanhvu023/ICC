@@ -2,11 +2,11 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import { useNavigation } from '@react-navigation/native';
-
+import { Image } from 'react-native-elements';
 export default function QR() {
   const qrData = 'https://www.facebook.com/thanhvu.huynh.39904/';
   const navigation = useNavigation();
-
+const qrImage = require('../../assets/qr.png');
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
@@ -14,19 +14,17 @@ export default function QR() {
       </TouchableOpacity>
       <View style={styles.infoContainer}>
         <Text style={styles.title}>Nâng cấp</Text>
-        <Text style={styles.qr}>
+        <Text style={styles.qr}> 
           Dễ thôi! Chạm vào hoặc scan mã QR dưới đây để thanh toán qua ví điện tử MoMo.
         </Text>
       </View>
 
-      <View style={styles.qrContainer}>
-        <QRCode
-          value={qrData}
-          size={200}
-          backgroundColor='white'
-          color='black'
-        />
-      </View>
+      <QRCode
+      value={qrData}
+      style={{width:500,
+      height:500
+      }}
+    />
 
       <View style={styles.additionalInfo}>
         <InfoItem label="Chủ tài khoản:" value="Nguyễn Văn A" />
@@ -58,7 +56,10 @@ const styles = StyleSheet.create({
     margin: 20,
   },
   qrContainer: {
-    borderRadius: 0.5,
+  borderRadius: 0.5,
+   flex:1,
+   width:200
+
   },
   additionalInfo: {
     marginTop: 20,

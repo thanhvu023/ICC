@@ -9,16 +9,27 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import COLORS from "../../components/colors";
-import React from "react";
+import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 export default function ConfirmOTP() {
   const navigation = useNavigation();
   const numberOfInputs = 4;
+  const [codes, setCodes] = useState(Array(numberOfInputs).fill(''));
+  const handleCodeChange = (text, index)=>{
+    if (/^\d*$/.test(text) && text.length <= 1) {
+      const newCodes = [...codes];
+      newCodes[index] = text;
+      setCodes(newCodes);
+    }
+  }
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
       <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
         <View style={{ flex: 1, marginHorizontal: 22 }}>
           <View style={{ marginVertical: 22 }}>
+          <Pressable onPress={() => navigation.goBack()} style={styles.backButton}>
+        <Text style={styles.backButtonText}>←</Text>
+      </Pressable>
             <Text style={styles.heading}>Xác nhận OTP</Text>
             <Text>
               Chúng tôi đã gửi mã xác nhận về điện thoại bạn, Hãy kiểm tra tin
@@ -28,10 +39,13 @@ export default function ConfirmOTP() {
           <View style={styles.containerOTP}>
             {Array.from({ length: numberOfInputs }).map((_, index) => (
               <TextInput
-                keyboardType="numeric"
-                key={index}
-                style={styles.codeOTP}
-              />
+              key={index}
+              style={styles.codeOTP}
+              keyboardType="numeric"
+              maxLength={1}
+              value={codes[index]}
+              onChangeText={(text) => handleCodeChange(text, index)}
+            />
             ))}
           </View>
           <Pressable
@@ -91,5 +105,10 @@ const styles = StyleSheet.create({
     marginVertical: 12,
     fontSize: 15,
     fontWeight: "bold",
+  },
+  backButtonText: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: COLORS.black,
   },
 });
