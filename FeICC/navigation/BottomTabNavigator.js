@@ -7,6 +7,7 @@ import Welcome from '../screens/Account/Welcome';
 import { Image } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import DetailProfile from '../screens/Profile/DetailProfile';
+import DishDetail from '../screens/DishDetail/DishDetail';
 
 const Tab = createBottomTabNavigator();
 
@@ -36,7 +37,7 @@ function BottomTabNavigator() {
             })}
         >
             <Tab.Screen name="Home" component={Tutorial} options={{ headerShown: false }} />
-            <Tab.Screen name="Discover" component={CompleteTutorial} options={{ headerShown: false }} />
+            <Tab.Screen name="Discover" component={DishDetail} options={{ headerShown: false }} />
             <Tab.Screen name="Leaderboard" component={Welcome} options={{ headerShown: false }} />
             <Tab.Screen name="Profile" component={ProfileStackScreens} options={{ headerShown: false }} />
         </Tab.Navigator>

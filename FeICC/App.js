@@ -10,7 +10,7 @@ import Welcome from './screens/Account/Welcome';
 import CompleteTutorial from './screens/Tutorial/CompleteTutorial';
 import BottomTabNavigator from './navigation/BottomTabNavigator';
 import DetailProfile from './screens/Profile/DetailProfile';
-import DishDetail from './screens/DishDetail/DishDetail';
+import Dishes from './screens/DishDetail/Dishes';
 
 export default function App() {
     const Stack = createNativeStackNavigator();
@@ -18,7 +18,7 @@ export default function App() {
         <GestureHandlerRootView style={{ flex: 1 }}>
             <NavigationContainer>
                 <Stack.Navigator
-                    initialRouteName="DishDetail"
+                    initialRouteName="Dishes"
                     screenOptions={{
                         headerTitleAlign: 'center',
                     }}
@@ -35,9 +35,7 @@ export default function App() {
                     />
 
                     <Stack.Screen name="DetailProfile" component={DetailProfile} options={{ title: 'Hồ sơ cá nhân' }} />
-
-                    <Stack.Screen name="DishDetail" component={DishDetail} options={{ headerShown: false }} />
-
+                    <Stack.Screen name="Dishes" component={Dishes} options={{ title: 'Món ăn' }} />
                     <Stack.Screen
                         name="BottomTabNavigator"
                         component={BottomTabNavigator}
