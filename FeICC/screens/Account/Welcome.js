@@ -44,7 +44,7 @@ const Welcome = () => {
               borderRadius: 5, 
               marginTop: 20, 
             }}
-            onPress={() => navigation.navigate('ACCOUNT')}
+            onPress={() => navigation.navigate('SIGNUP')}
 
           >
             <Text style={{

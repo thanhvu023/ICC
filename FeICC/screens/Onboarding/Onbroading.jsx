@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import Onboarding from 'react-native-onboarding-swiper';
 import LottieView from 'lottie-react-native';
 import { useNavigation } from '@react-navigation/native';
+import dataSlide from './custome/dataSlide';
 export default function Onbroading() {
     const navigation = useNavigation();
     const animationRef = useRef<LottieView>(null);
@@ -20,7 +21,7 @@ export default function Onbroading() {
  onDone={handleDone}
  onSkip={handleDone}
  bottomBarColor='red'
- 
+ bottomBarHighlight={false}
       containerStyles={{ paddingHorizontal: 15 }}
       pages={[
         {
