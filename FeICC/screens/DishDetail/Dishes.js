@@ -2,6 +2,7 @@ import React, { useState, useRef, useMemo, useCallback } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, Image, StyleSheet, FlatList } from 'react-native';
 import BottomSheet from '@gorhom/bottom-sheet';
 import RangeSlider from '../../navigation/RangeSlider';
+import { useNavigation } from '@react-navigation/native';
 
 const foodData = [
     { id: 1, name: 'Bánh Mì', isNew: true },
@@ -33,6 +34,7 @@ function Dishes() {
     const [selectedItems, setSelectedItems] = useState([]);
     const [selectedMaterial, setSelectedMaterial] = useState([]);
     const [selectedRating, setSelectedRating] = useState([]);
+    const navigation = useNavigation();
 
     const filteredFoodData = foodData.filter((food) => food.name.toLowerCase().includes(searchText.toLowerCase()));
 
@@ -214,6 +216,7 @@ function Dishes() {
                                     borderRadius: 8,
                                     margin: 2,
                                 }}
+                                onPress={() => navigation.navigate('KitchenCabinets')}
                             >
                                 <Text>Cật nhập tủ bếp</Text>
                             </TouchableOpacity>
@@ -251,6 +254,7 @@ function Dishes() {
                                     elevation: 2,
                                 }}
                                 key={item.id}
+                                onPress={() => navigation.navigate('DishesDetail')}
                             >
                                 <Image
                                     style={{
@@ -345,6 +349,7 @@ function Dishes() {
                             elevation: 2,
                         }}
                         key={item.id}
+                        onPress={() => navigation.navigate('DishesDetail')}
                     >
                         <Image
                             style={{ height: 52, width: 52, resizeMode: 'cover', marginLeft: 8, borderRadius: 8 }}

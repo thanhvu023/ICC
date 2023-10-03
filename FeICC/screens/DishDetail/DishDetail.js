@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, ImageBackground, Dimensions, TouchableOpacity, Image } from 'react-native';
 import ReadMoreLessButton from '../../navigation/ReadMoreLessButton';
-import Swiper from 'react-native-swiper';
+import { useNavigation } from '@react-navigation/native';
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
 
 const Step_Picture = [
@@ -100,6 +100,7 @@ const renderComment = (data) => {
 function DishDetail() {
     const [selectedTab, setSelectedTab] = useState('nguyenlieu');
     const swiperRef = useRef(null);
+    const navigation = useNavigation();
 
     const renderContent = () => {
         if (selectedTab === 'nguyenlieu') {
@@ -134,6 +135,7 @@ function DishDetail() {
                                 width: 80,
                                 height: 30,
                             }}
+                            onPress={() => navigation.navigate('Tutorial')}
                         >
                             <Text style={{ color: 'white' }}>Bắt đầu</Text>
                         </TouchableOpacity>
