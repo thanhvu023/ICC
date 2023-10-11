@@ -17,7 +17,7 @@ const DishesStack = createStackNavigator();
 function BottomTabNavigator() {
     return (
         <Tab.Navigator
-            initialRouteName="Home"
+            initialRouteName="Discover"
             screenOptions={({ route }) => ({
                 tabBarActiveTintColor: '#FF7A00',
                 tabBarLabel: () => null,

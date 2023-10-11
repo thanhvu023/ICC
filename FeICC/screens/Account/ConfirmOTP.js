@@ -14,6 +14,13 @@ export default function ConfirmOTP() {
             setCodes(newCodes);
         }
     };
+    const [isVerified, setIsVerified] = useState(false);
+    const handleConfirm = () => {
+        if (codes.join('') === '3664') {
+            setIsVerified(true);
+        }
+    };
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
             <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
@@ -37,27 +44,56 @@ export default function ConfirmOTP() {
                             />
                         ))}
                     </View>
-                    <Pressable
-                        style={{
-                            backgroundColor: '#000',
-                            width: '100%',
-                            paddingVertical: 10,
-                            borderRadius: 15,
-                            marginTop: 50,
-                        }}
-                        onPress={() => navigation.navigate('NEWPASSWORD')}
-                    >
-                        <Text
+                    {isVerified ? (
+                        // Hiển thị thông báo đăng ký thành công và nút chuyển đến trang đăng nhập
+                        <View style={{ alignItems: 'center', marginTop: 20 }}>
+                            <Text style={{ fontSize: 16, color: 'green' }}>Đăng ký thành công!</Text>
+                            <Pressable
+                                style={{
+                                    backgroundColor: '#000',
+                                    width: '100%',
+                                    paddingVertical: 10,
+                                    borderRadius: 15,
+                                    marginTop: 20,
+                                }}
+                                onPress={() => navigation.navigate('ACCOUNT')}
+                            >
+                                <Text
+                                    style={{
+                                        fontSize: 18,
+                                        fontWeight: 'bold',
+                                        color: '#FFFFFF',
+                                        textAlign: 'center',
+                                    }}
+                                >
+                                    Đến trang đăng nhập
+                                </Text>
+                            </Pressable>
+                        </View>
+                    ) : (
+                        // Hiển thị nút Confirm
+                        <Pressable
                             style={{
-                                fontSize: 18,
-                                fontWeight: 'bold',
-                                color: '#FFFFFF',
-                                textAlign: 'center',
+                                backgroundColor: '#000',
+                                width: '100%',
+                                paddingVertical: 10,
+                                borderRadius: 15,
+                                marginTop: 20,
                             }}
+                            onPress={handleConfirm}
                         >
-                            Confirm
-                        </Text>
-                    </Pressable>
+                            <Text
+                                style={{
+                                    fontSize: 18,
+                                    fontWeight: 'bold',
+                                    color: '#FFFFFF',
+                                    textAlign: 'center',
+                                }}
+                            >
+                                Confirm
+                            </Text>
+                        </Pressable>
+                    )}
                     <Pressable>
                         <Text style={styles.resendCode}>Resend Code</Text>
                     </Pressable>

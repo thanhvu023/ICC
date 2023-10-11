@@ -1,13 +1,51 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, SafeAreaView, TextInput, StyleSheet, Pressable } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import TextBox from 'react-native-password-eye';
 import COLORS from '../../components/colors';
-import { useState } from 'react';
+import Axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
+
+// function sendLoginRequest(email, password) {
+//     const apiUrl = 'https://exe201-icc.azurewebsites.net/api/v1/auth/SignIn';
+
+//     const requestData = {
+//         email: email,
+//         password: password,
+//     };
+
+//     Axios.post(apiUrl, requestData)
+//         .then((response) => {
+//             console.log('Đăng nhập thành công', response.data);
+//             navigation.navigate('BottomTabNavigator');
+//         })
+//         .catch((error) => {
+//             console.error('Đăng nhập thất bại', error);
+//         });
+// }
+
 export default function Signin() {
-    const [password, setPassword] = useState();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const navigation = useNavigation();
+
+    const sendLoginRequest = (email, password) => {
+        const apiUrl = 'https://exe201-icc.azurewebsites.net/api/v1/auth/SignIn';
+
+        const requestData = {
+            email: email,
+            password: password,
+        };
+
+        Axios.post(apiUrl, requestData)
+            .then((response) => {
+                console.log('Đăng nhập thành công');
+                navigation.navigate('BottomTabNavigator');
+            })
+            .catch((error) => {
+                console.error('Đăng nhập thất bại');
+            });
+    };
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
@@ -30,6 +68,8 @@ export default function Signin() {
                             placeholder="Nhập tại đây..."
                             placeholderTextColor={COLORS.black}
                             keyboardType="email-address"
+                            value={email}
+                            onChangeText={(text) => setEmail(text)}
                         />
                     </View>
                 </View>
@@ -56,7 +96,9 @@ export default function Signin() {
                         borderRadius: 5,
                         marginTop: 20,
                     }}
-                    onPress={() => navigation.navigate('BottomTabNavigator')}
+                    onPress={() => {
+                        sendLoginRequest(email, password);
+                    }}
                 >
                     <Text
                         style={{
@@ -148,7 +190,6 @@ export default function Signin() {
         </SafeAreaView>
     );
 }
-
 const styles = StyleSheet.create({
     heading: {
         fontSize: 22,

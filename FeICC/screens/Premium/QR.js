@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 export default function QR() {
     const qrData = 'https://www.facebook.com/thanhvu.huynh.39904/';
@@ -20,14 +20,34 @@ export default function QR() {
             <Image source={qrImage} style={{ width: 200, height: 200 }} />
 
             <View style={styles.additionalInfo}>
-                <InfoItem label="Chủ tài khoản:" value="Nguyễn Văn A" />
-                <InfoItem label="Số điện thoại:" value="0123456789" />
+                <InfoItem label="Chủ tài khoản:" value="Nguyễn Thanh Tuấn" />
+                <InfoItem label="Số điện thoại:" value="0909365446" />
                 <InfoItem label="Đơn hàng:" value="#24144" />
                 <InfoItem label="Số tiền:" value="59.000 VND" />
                 <Text style={styles.boldText}>
                     Bạn sẽ thanh toán 59.000 VND ngay và gia hạn tự động vào tháng sau (18/10/2023)
                 </Text>
             </View>
+            <Pressable
+                style={{
+                    backgroundColor: '#000',
+                    width: '70%',
+                    paddingVertical: 10,
+                    borderRadius: 5,
+                }}
+                onPress={() => navigation.navigate('Discover')}
+            >
+                <Text
+                    style={{
+                        fontSize: 18,
+                        fontWeight: 'bold',
+                        color: '#FFFFFF',
+                        textAlign: 'center',
+                    }}
+                >
+                    Quay về màn hình chính
+                </Text>
+            </Pressable>
         </View>
     );
 }

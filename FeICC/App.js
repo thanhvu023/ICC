@@ -24,7 +24,7 @@ export default function App() {
         <GestureHandlerRootView style={{ flex: 1 }}>
             <NavigationContainer>
                 <Stack.Navigator
-                    initialRouteName="BottomTabNavigator"
+                    initialRouteName="ONBROADING"
                     screenOptions={{
                         headerTitleAlign: 'center',
                     }}

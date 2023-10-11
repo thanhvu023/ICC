@@ -2,9 +2,9 @@ import { View, Text, StyleSheet, TouchableOpacity, Image, Alert } from 'react-na
 import { useNavigation } from '@react-navigation/native';
 
 const userData = {
-    name: 'Trần Hoàng Lâm',
+    name: 'Huỳnh Thanh Vũ',
     username: 'johndoe123',
-    profileImage: require('../../assets/StepImage/Step4.png'),
+    profileImage: require('../../assets/ProfileIcon/avatar.jpg'),
 };
 
 function Profile() {

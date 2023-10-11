@@ -2,18 +2,18 @@ import React from 'react';
 import { View, Text, StyleSheet, Image, TextInput, ScrollView, TouchableOpacity } from 'react-native';
 
 const userInfo = {
-    name: 'Trần Hoàng Lâm',
-    phone: '0901325280',
-    email: 'hlamt125@gmail.com',
-    password: '123',
-    gender: 'nam',
-    birthYear: 2001,
+    name: 'Huỳnh Thanh Vũ',
+    phone: '0909336376',
+    email: 'huynhthanhvu115@gmail.com',
+    password: 'Vu@336376',
+    gender: '',
+    birthYear: '',
 };
 
 function DetailProfile() {
     return (
         <View style={styles.container}>
-            <Image source={require('../../assets/StepImage/Step4.png')} style={styles.profileImage} />
+            <Image source={require('../../assets/ProfileIcon/avatar.jpg')} style={styles.profileImage} />
             <ScrollView style={styles.wrapper}>
                 <Text style={styles.detailTitle}>Họ và tên</Text>
                 <TextInput style={styles.input} value={userInfo.name} />
