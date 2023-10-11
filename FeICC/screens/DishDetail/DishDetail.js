@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, ImageBackground, Dimensions, TouchableOpacity, Image } from 'react-native';
 import ReadMoreLessButton from '../../navigation/ReadMoreLessButton';
 import { useNavigation } from '@react-navigation/native';
@@ -97,10 +97,12 @@ const renderComment = (data) => {
         </View>
     ));
 };
-function DishDetail() {
+function DishDetail({ route }) {
     const [selectedTab, setSelectedTab] = useState('nguyenlieu');
     const swiperRef = useRef(null);
     const navigation = useNavigation();
+    const [listFoodData, setListFoodData] = useState([]);
+    const { itemData } = route.params;
 
     const renderContent = () => {
         if (selectedTab === 'nguyenlieu') {
@@ -146,15 +148,35 @@ function DishDetail() {
             );
         }
     };
+    //API
+    const getListFoodData = async () => {
+        try {
+            const response = await fetch('https://exe201-icc.azurewebsites.net/api/Recipe/get-all-recipes');
+            if (response.ok) {
+                const responseData = await response.json();
+                setListFoodData(responseData);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    //useAPI
+    useEffect(() => {
+        getListFoodData();
+    }, []);
+
     return (
         <>
             <ScrollView style={{ backgroundColor: 'white' }}>
                 <View>
                     <ImageBackground
                         style={styles.imageBackground}
-                        source={require('../../assets/StepImage/Step4.png')}
+                        source={{
+                            uri: itemData.imgLink,
+                        }}
                     >
-                        <TouchableOpacity style={styles.closeIcon}>
+                        <TouchableOpacity style={styles.closeIcon} onPress={() => navigation.navigate('Dishes')}>
                             <Image source={require('../../assets/CloseSquare.png')} resizeMode="contain"></Image>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.closeIcon}>
@@ -163,7 +185,7 @@ function DishDetail() {
                     </ImageBackground>
                     <View style={styles.contentWrapper}>
                         <View>
-                            <Text style={{ fontSize: 24, fontWeight: 'bold' }}>Đậu hũ Tứ Xuyên</Text>
+                            <Text style={{ fontSize: 24, fontWeight: 'bold' }}>{itemData.name}</Text>
                         </View>
                         <View style={styles.content}>
                             <View>
@@ -195,7 +217,7 @@ function DishDetail() {
                                 resizeMode="contain"
                             ></Image>
                         </View>
-                        <View style={styles.tagWrapper}>
+                        {/* <View style={styles.tagWrapper}>
                             <View style={styles.tagView}>
                                 <Text
                                     style={{
@@ -235,7 +257,7 @@ function DishDetail() {
                                     Ẩm thực Trung
                                 </Text>
                             </View>
-                        </View>
+                        </View> */}
                     </View>
                     <View style={styles.contentTag}>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -257,7 +279,7 @@ function DishDetail() {
                                 ></Image>
                             </View>
                             <View>
-                                <Text style={{ marginRight: 10 }}>120 Kcal</Text>
+                                <Text style={{ marginRight: 10 }}>{itemData.energy} cal</Text>
                             </View>
                         </View>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -279,7 +301,7 @@ function DishDetail() {
                                 ></Image>
                             </View>
                             <View>
-                                <Text style={{ marginRight: 10 }}>30 phút</Text>
+                                <Text style={{ marginRight: 10 }}>{itemData.cookingTime} phút</Text>
                             </View>
                         </View>
                     </View>
@@ -303,7 +325,7 @@ function DishDetail() {
                                 ></Image>
                             </View>
                             <View>
-                                <Text style={{ marginRight: 10 }}>4 người</Text>
+                                <Text style={{ marginRight: 10 }}>{itemData.servingSize} người</Text>
                             </View>
                         </View>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -325,15 +347,12 @@ function DishDetail() {
                                 ></Image>
                             </View>
                             <View>
-                                <Text style={{ marginRight: 10 }}>Trung bình</Text>
+                                <Text style={{ marginRight: 10 }}>{itemData.meals}</Text>
                             </View>
                         </View>
                     </View>
                     <View style={{ padding: 10 }}>
-                        <ReadMoreLessButton
-                            text="Đậu phụ ma bà (tiếng Trung: 麻婆豆腐; bính âm: mápó dòufu) còn có tên gọi khác là Đậu phụ Tứ Xuyên, là một trong những món ăn nổi tiếng của tỉnh Tứ Xuyên. Đậu phụ ma bà do một người phụ nữ tên Trần Ma Bà đã sáng tạo nên món ăn ngon miệng, từ đấy dân gian đã lấy tên người phụ nữ đó đặt cho món ăn này."
-                            maxLength={50}
-                        />
+                        <ReadMoreLessButton text={itemData.description} maxLength={50} />
                     </View>
                     <View
                         style={{
@@ -421,14 +440,14 @@ function DishDetail() {
                                 Những món ngon khác
                             </Text>
 
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={() => navigation.navigate('Dishes')}>
                                 <Text style={{ color: 'rgba(255, 122, 0, 1)' }}>Xem tất cả</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
                     <SwiperFlatList
                         index={0}
-                        data={Step_Picture}
+                        data={listFoodData.slice(0, 4)}
                         horizontal
                         snapToAlignment="start"
                         ref={swiperRef}
@@ -450,7 +469,9 @@ function DishDetail() {
                                     }}
                                 >
                                     <Image
-                                        source={item.url}
+                                        source={{
+                                            uri: item.imgLink,
+                                        }}
                                         style={{ width: '100%', height: '100%' }}
                                         resizeMode="cover"
                                     />
@@ -466,13 +487,13 @@ function DishDetail() {
                                         padding: 10,
                                     }}
                                 >
-                                    <Text style={{ color: 'white', fontWeight: '600', fontSize: 14 }}>Súp gà</Text>
+                                    <Text style={{ color: 'white', fontWeight: '600', fontSize: 14 }}>{item.name}</Text>
                                     <View style={{ flexDirection: 'row', paddingTop: 5 }}>
                                         <Image
                                             style={{ marginRight: 2 }}
-                                            source={require('../../assets/Heart.png')}
+                                            source={require('../../assets/Dishes/TimeCircleWhite.png')}
                                         ></Image>
-                                        <Text style={{ color: 'white' }}>20 phút</Text>
+                                        <Text style={{ color: 'white' }}>{item.cookingTime} phút</Text>
                                     </View>
                                 </View>
                             </View>

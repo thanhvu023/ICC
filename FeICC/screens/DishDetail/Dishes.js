@@ -1,15 +1,15 @@
-import React, { useState, useRef, useMemo, useCallback } from 'react';
+import React, { useState, useRef, useMemo, useCallback, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, Image, StyleSheet, FlatList } from 'react-native';
 import BottomSheet from '@gorhom/bottom-sheet';
 import RangeSlider from '../../navigation/RangeSlider';
 import { useNavigation } from '@react-navigation/native';
 
-const foodData = [
-    { id: 1, name: 'Đậu hủ tứ xuyên', isNew: true },
-    { id: 2, name: 'Phở', isNew: false },
-    { id: 3, name: 'Hủ tiếu bò kho', isNew: false },
-    { id: 4, name: 'Gỏi cuốn tôm thịt', isNew: true },
-];
+// const foodData = [
+//     { id: 1, name: 'Đậu hủ tứ xuyên', isNew: true },
+//     { id: 2, name: 'Phở', isNew: false },
+//     { id: 3, name: 'Hủ tiếu bò kho', isNew: false },
+//     { id: 4, name: 'Gỏi cuốn tôm thịt', isNew: true },
+// ];
 
 const items = [
     { id: 1, text: 'Sáng' },
@@ -34,9 +34,10 @@ function Dishes() {
     const [selectedItems, setSelectedItems] = useState([]);
     const [selectedMaterial, setSelectedMaterial] = useState([]);
     const [selectedRating, setSelectedRating] = useState([]);
+    const [listFoodData, setListFoodData] = useState([]);
     const navigation = useNavigation();
 
-    const filteredFoodData = foodData.filter((food) => food.name.toLowerCase().includes(searchText.toLowerCase()));
+    const filteredFoodData = listFoodData.filter((food) => food.name.toLowerCase().includes(searchText.toLowerCase()));
 
     // hooks
     const sheetRef = useRef(null);
@@ -144,6 +145,24 @@ function Dishes() {
         </TouchableOpacity>
     );
 
+    //API
+    const getListFoodData = async () => {
+        try {
+            const response = await fetch('https://exe201-icc.azurewebsites.net/api/Recipe/get-all-recipes');
+            if (response.ok) {
+                const responseData = await response.json();
+                setListFoodData(responseData);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    //useAPI
+    useEffect(() => {
+        getListFoodData();
+    }, []);
+
     return (
         <>
             <ScrollView style={{ flex: 1, padding: 16, backgroundColor: 'white' }}>
@@ -204,7 +223,7 @@ function Dishes() {
                             }}
                         >
                             <Text>Bạn có thể nấu</Text>
-                            <Text style={{ fontSize: 20, fontWeight: '700' }}>{foodData.length} món</Text>
+                            <Text style={{ fontSize: 20, fontWeight: '700' }}>{listFoodData.length} món</Text>
                             <Text>từ 34 nguyên liệu của bạn</Text>
                             <TouchableOpacity
                                 style={{
@@ -237,7 +256,7 @@ function Dishes() {
                         <Text style={{ fontSize: 20, fontWeight: 'bold', marginTop: 16 }}>
                             Món hot bạn đã thử chưa?
                         </Text>
-                        {foodData.map((item) => (
+                        {listFoodData.slice(0, 4).map((item) => (
                             <TouchableOpacity
                                 style={{
                                     margin: 2,
@@ -254,7 +273,7 @@ function Dishes() {
                                     elevation: 2,
                                 }}
                                 key={item.id}
-                                onPress={() => navigation.navigate('DishesDetail')}
+                                onPress={() => navigation.navigate('DishesDetail', { itemData: item })}
                             >
                                 <Image
                                     style={{
@@ -264,7 +283,9 @@ function Dishes() {
                                         marginLeft: 8,
                                         borderRadius: 8,
                                     }}
-                                    source={require('../../assets/StepImage/Step4.png')}
+                                    source={{
+                                        uri: item.imgLink,
+                                    }}
                                 ></Image>
                                 <View style={{ paddingLeft: 12 }}>
                                     <Text>{item.name}</Text>
@@ -280,7 +301,7 @@ function Dishes() {
                                             source={require('../../assets/Dishes/TimeCircleDishes.png')}
                                             resizeMode="contain"
                                         ></Image>
-                                        <Text>20 phút</Text>
+                                        <Text>{item.cookingTime}</Text>
                                     </View>
                                     <View style={{ flexDirection: 'row' }}>
                                         <View style={styles.tagView}>
@@ -293,7 +314,7 @@ function Dishes() {
                                                     color: 'white',
                                                 }}
                                             >
-                                                Món cay
+                                                {item.energy} cal
                                             </Text>
                                         </View>
                                         <View style={styles.tagView}>
@@ -306,7 +327,7 @@ function Dishes() {
                                                     color: 'white',
                                                 }}
                                             >
-                                                Món xào
+                                                {item.servingSize} người
                                             </Text>
                                         </View>
                                         <View style={styles.tagView}>
@@ -319,7 +340,7 @@ function Dishes() {
                                                     color: 'white',
                                                 }}
                                             >
-                                                Ẩm thực Trung
+                                                {item.meals}
                                             </Text>
                                         </View>
                                     </View>
@@ -349,11 +370,13 @@ function Dishes() {
                             elevation: 2,
                         }}
                         key={item.id}
-                        onPress={() => navigation.navigate('DishesDetail')}
+                        onPress={() => navigation.navigate('DishesDetail', { itemData: item })}
                     >
                         <Image
                             style={{ height: 52, width: 52, resizeMode: 'cover', marginLeft: 8, borderRadius: 8 }}
-                            source={require('../../assets/StepImage/Step4.png')}
+                            source={{
+                                uri: item.imgLink,
+                            }}
                         ></Image>
                         <View style={{ paddingLeft: 12 }}>
                             <Text>{item.name}</Text>
@@ -369,7 +392,7 @@ function Dishes() {
                                     source={require('../../assets/Dishes/TimeCircleDishes.png')}
                                     resizeMode="contain"
                                 ></Image>
-                                <Text>20 phút</Text>
+                                <Text>{item.cookingTime}</Text>
                             </View>
                             <View style={{ flexDirection: 'row' }}>
                                 <View style={styles.tagView}>
@@ -382,7 +405,7 @@ function Dishes() {
                                             color: 'white',
                                         }}
                                     >
-                                        Món cay
+                                        {item.energy} cal
                                     </Text>
                                 </View>
                                 <View style={styles.tagView}>
@@ -395,7 +418,7 @@ function Dishes() {
                                             color: 'white',
                                         }}
                                     >
-                                        Món xào
+                                        {item.servingSize} người
                                     </Text>
                                 </View>
                                 <View style={styles.tagView}>
@@ -408,7 +431,7 @@ function Dishes() {
                                             color: 'white',
                                         }}
                                     >
-                                        Ẩm thực Trung
+                                        {item.meals}
                                     </Text>
                                 </View>
                             </View>
