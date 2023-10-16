@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, TextInput, ScrollView, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const userInfo = {
     name: 'Huỳnh Thanh Vũ',
@@ -11,6 +13,19 @@ const userInfo = {
 };
 
 function DetailProfile() {
+    const [email, setEmail] = useState(userInfo.email);
+    const [password, setPassword] = useState('');
+    const navigation = useNavigation();
+
+    const handleLogout = async () => {
+        try {
+            await AsyncStorage.removeItem('token');
+            navigation.navigate('ACCOUNT');
+            console.error('Đăng xuất thành công!');
+        } catch (error) {
+            console.error('Lỗi khi đăng xuất', error);
+        }
+    };
     return (
         <View style={styles.container}>
             <Image source={require('../../assets/ProfileIcon/avatar.jpg')} style={styles.profileImage} />
@@ -23,12 +38,12 @@ function DetailProfile() {
                 <TextInput style={styles.input} value={userInfo.email} keyboardType="email-address" />
                 <Text style={styles.detailTitle}>Mật khẩu</Text>
                 <TextInput style={styles.input} value={userInfo.password} secureTextEntry={true} />
-                <Text style={styles.detailTitle}>Giới tính</Text>
+                {/* <Text style={styles.detailTitle}>Giới tính</Text>
                 <TextInput style={styles.input} value={userInfo.gender} />
                 <Text style={styles.detailTitle}>Năm sinh</Text>
-                <TextInput style={styles.input} value={userInfo.birthYear.toString()} />
-                <TouchableOpacity style={styles.completeButton}>
-                    <Text style={styles.completeButtonText}>Cật nhật hồ sơ</Text>
+                <TextInput style={styles.input} value={userInfo.birthYear.toString()} /> */}
+                <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+                    <Text style={styles.completeButtonText}>Đăng Xuất</Text>
                 </TouchableOpacity>
             </ScrollView>
         </View>
@@ -86,6 +101,26 @@ const styles = StyleSheet.create({
         color: 'white',
         fontWeight: 'bold',
         fontSize: 16,
+    },
+    logoutButton: {
+        width: '100%',
+        height: 54,
+        color: 'white',
+        backgroundColor: 'green',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 16,
+        marginTop: 10,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(255, 122, 0, 1)',
+    },
+    logoutButtonText: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: 'white',
+        textAlign: 'center',
     },
 });
 

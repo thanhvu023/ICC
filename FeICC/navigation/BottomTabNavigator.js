@@ -8,6 +8,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import DetailProfile from '../screens/Profile/DetailProfile';
 import DishDetail from '../screens/DishDetail/DishDetail';
 import Dishes from '../screens/DishDetail/Dishes';
+import HomePage from '../screens/HomePage/HomePage';
 
 const Tab = createBottomTabNavigator();
 
@@ -17,7 +18,7 @@ const DishesStack = createStackNavigator();
 function BottomTabNavigator() {
     return (
         <Tab.Navigator
-            initialRouteName="Discover"
+            initialRouteName="Home"
             screenOptions={({ route }) => ({
                 tabBarActiveTintColor: '#FF7A00',
                 tabBarLabel: () => null,
@@ -37,7 +38,7 @@ function BottomTabNavigator() {
                 },
             })}
         >
-            <Tab.Screen name="Home" component={Tutorial} options={{ headerShown: false }} />
+            <Tab.Screen name="Home" component={HomePage} options={{ headerShown: false }} />
             <Tab.Screen name="Discover" component={DishesStackScreens} options={{ headerShown: false }} />
             <Tab.Screen name="Leaderboard" component={Welcome} options={{ headerShown: false }} />
             <Tab.Screen name="Profile" component={ProfileStackScreens} options={{ headerShown: false }} />

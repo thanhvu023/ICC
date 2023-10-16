@@ -5,31 +5,14 @@ import TextBox from 'react-native-password-eye';
 import COLORS from '../../components/colors';
 import Axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
-
-// function sendLoginRequest(email, password) {
-//     const apiUrl = 'https://exe201-icc.azurewebsites.net/api/v1/auth/SignIn';
-
-//     const requestData = {
-//         email: email,
-//         password: password,
-//     };
-
-//     Axios.post(apiUrl, requestData)
-//         .then((response) => {
-//             console.log('Đăng nhập thành công', response.data);
-//             navigation.navigate('BottomTabNavigator');
-//         })
-//         .catch((error) => {
-//             console.error('Đăng nhập thất bại', error);
-//         });
-// }
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Signin() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigation = useNavigation();
 
-    const sendLoginRequest = (email, password) => {
+    const sendLoginRequest = async (email, password) => {
         const apiUrl = 'https://exe201-icc.azurewebsites.net/api/v1/auth/SignIn';
 
         const requestData = {
@@ -37,14 +20,17 @@ export default function Signin() {
             password: password,
         };
 
-        Axios.post(apiUrl, requestData)
-            .then((response) => {
-                console.log('Đăng nhập thành công');
-                navigation.navigate('BottomTabNavigator');
-            })
-            .catch((error) => {
-                console.error('Đăng nhập thất bại');
-            });
+        try {
+            const response = await Axios.post(apiUrl, requestData);
+
+            await AsyncStorage.setItem('token', response.data.message);
+
+            console.log('Đăng nhập thành công');
+            // console.log(response.data.message);
+            navigation.navigate('BottomTabNavigator');
+        } catch (error) {
+            console.error('Đăng nhập thất bại', error);
+        }
     };
 
     return (

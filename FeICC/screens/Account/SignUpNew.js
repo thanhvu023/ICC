@@ -141,7 +141,7 @@ export default function SignUpNew() {
                             borderRadius: 15,
                         }}
                         // onPress={handleSignUp}
-                        onPress={() => navigation.navigate('CONFIRMOTP')}
+                        onPress={() => navigation.navigate('ACCOUNT')}
                     >
                         <Text
                             style={{

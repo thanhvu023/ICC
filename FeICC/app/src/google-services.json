@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1049308700091",
+    "project_id": "itcancook",
+    "storage_bucket": "itcancook.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1049308700091:android:576e5259dff787a4e3789e",
+        "android_client_info": {
+          "package_name": "com.feicc"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCH1T_jNbLgh_1Hgl4Ovp99gr4TgRTjNdA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

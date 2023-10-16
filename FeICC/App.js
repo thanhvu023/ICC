@@ -17,6 +17,7 @@ import ForgotPassword from './screens/Account/ForgotPassword';
 import Onboarding2 from './screens/Onboarding/custome/Onboarding2';
 import Premium from './screens/Premium/Premium';
 import QR from './screens/Premium/QR';
+import HomePage from './screens/HomePage/HomePage';
 
 export default function App() {
     const Stack = createNativeStackNavigator();
@@ -39,6 +40,7 @@ export default function App() {
                     <Stack.Screen name="NEWPASSWORD" component={NewPassword} options={{ headerShown: false }} />
                     <Stack.Screen name="CONFIRMOTP" component={ConfirmOTP} options={{ headerShown: false }} />
                     <Stack.Screen name="SIGNUP" component={SignUpNew} options={{ headerShown: false }} />
+                    <Stack.Screen name="HOMEPAGE" component={HomePage} options={{ headerShown: false }} />
 
                     <Stack.Screen name="Tutorial" component={Tutorial} options={{ headerShown: false }} />
                     <Stack.Screen
