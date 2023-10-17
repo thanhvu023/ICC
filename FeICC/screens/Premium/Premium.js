@@ -19,31 +19,7 @@ function Premium() {
             <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
                 <Text style={styles.backButtonText}>←</Text>
             </TouchableOpacity>
-            <Text style={styles.title}>Premium</Text>
-            <Button title="Show Modal" onPress={() => setShow(true)} />
-
-            <Modal transparent={true} visible={show}>
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
-                        <Text style={styles.title}>Khám Phá Ẩm Thực Đỉnh Cao!</Text>
-                        <Text style={styles.subtitle}>Hãy nâng cấp để:</Text>
-
-                        <View style={styles.itemsContainer}>
-                            {items.map((item, index) => (
-                                <View key={index} style={styles.item}>
-                                    <Image source={item.image} style={styles.itemImage} />
-                                    <Text style={styles.itemText}>{item.text}</Text>
-                                </View>
-                            ))}
-                        </View>
-
-                        <TouchableOpacity style={styles.startButton} onPress={() => navigation.navigate('QRSCAN')}>
-                            <Text style={styles.startButtonText}>BẮT ĐẦU NGAY</Text>
-                            <Text style={styles.startButtonSubtext}>59.000 VND/tháng • Huỷ bất kì lúc nào</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            </Modal>
+            <Text style={styles.title}>Thành công</Text>
         </View>
     );
 }
