@@ -160,6 +160,7 @@ function HomePage() {
                         </View>
                     </View>
                 </View>
+
                 <View>
                     <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'rgba(10, 37, 51, 1)' }}>
                         Bữa ăn của bạn như thế nào?
@@ -319,7 +320,7 @@ function HomePage() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'white', // Set your background color here
+        backgroundColor: 'white',
     },
     tagView: {
         backgroundColor: 'rgba(255, 122, 0, 1)',
@@ -393,26 +394,34 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: 'rgba(10, 37, 51, 1)',
     },
+    containerCategory: {
+        padding: 10,
+    },
+    title: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: 'rgba(10, 37, 51, 1)',
+    },
     categoryContainer: {
-        flexDirection: 'column',
+        marginTop: 10,
     },
     row: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginBottom: 10,
+        marginTop: 10,
     },
     categoryItem: {
-        flex: 1,
-        alignItems: 'center',
+        width: '23%',
         backgroundColor: 'white',
+        alignItems: 'center',
         padding: 10,
+        borderRadius: 8,
         borderWidth: 1,
         borderColor: 'rgba(221, 228, 236, 1)',
-        borderRadius: 8,
     },
     categoryText: {
-        marginTop: 10,
         color: 'black',
+        marginTop: 5,
         textAlign: 'center',
     },
 });
