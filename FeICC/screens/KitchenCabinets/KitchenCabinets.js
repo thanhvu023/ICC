@@ -1,6 +1,10 @@
-import React, { useState, useRef, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, Image, StyleSheet, FlatList, Modal } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import jwtDecode from 'jwt-decode';
+import BottomSheet from '@gorhom/bottom-sheet';
+import { Alert } from 'react-native';
 const items = [
     { text: 'Khám phá hơn 1000 món ăn mới', image: require('../../assets/v.png') },
     { text: 'Trải nghiệm ẩm thực toàn thế giới', image: require('../../assets/v.png') },
@@ -17,43 +21,8 @@ const numberMaterial = [
     { id: 7, text: 'Dầu ăn' },
 ];
 
-const numberKitchenEquipment = [
-    { id: 1, text: 'Lò nướng' },
-    { id: 2, text: 'Lò vi sóng' },
-    { id: 3, text: 'Lò chiên không dầu' },
-    { id: 4, text: 'Máy xay sinh tố' },
-    { id: 5, text: 'Máy chiên ngập dầu' },
-    { id: 6, text: 'Nồi hầm' },
-    { id: 7, text: 'Bếp nướng' },
-    { id: 8, text: 'Máy nướng bánh mì' },
-];
-
-const numberVegetable = [
-    { id: 1, text: 'Cà chua' },
-    { id: 2, text: 'Cà tím' },
-    { id: 3, text: 'Bí đao' },
-    { id: 4, text: 'Rau muống' },
-    { id: 5, text: 'Rau bina' },
-    { id: 6, text: 'Hành lá' },
-    { id: 7, text: 'Bạc hà' },
-    { id: 8, text: 'Mướp đắng' },
-    { id: 9, text: 'Rau cải' },
-    { id: 10, text: 'Hành tây' },
-    { id: 11, text: 'Bông cải xanh' },
-    { id: 12, text: 'Cải thảo' },
-    { id: 13, text: 'Rau răm' },
-    { id: 14, text: 'Cải xoong' },
-    { id: 15, text: 'Rau dền' },
-    { id: 16, text: 'Cải ngọt' },
-    { id: 17, text: 'Cà rốt' },
-    { id: 18, text: 'Hành tỏi' },
-    { id: 19, text: 'Cải bẹ xanh' },
-    { id: 20, text: 'Ớt chuông' },
-];
-
 function KitchenCabinets() {
     const [show, setShow] = useState(false);
-
     const [searchText, setSearchText] = useState('');
     const [selectedMaterial, setSelectedMaterial] = useState([]);
     const [showMaterials, setShowMaterials] = useState(false);
@@ -64,7 +33,27 @@ function KitchenCabinets() {
     const [showAllMaterials, setShowAllMaterials] = useState(false);
     const [showAllVegetables, setShowAllVegetables] = useState(false);
     const [showAllKitchenEquipments, setShowAllKitchenEquipments] = useState(false);
+    const [listMeat, setListMeat] = useState([]);
+    const [listVegetable, setListVegetable] = useState([]);
+    const [listSpice, setListSpice] = useState([]);
+    const [recipe, setRecipe] = useState([]);
     const navigation = useNavigation();
+
+    // hooks
+    const sheetRef = useRef(null);
+
+    const snapPoints = useMemo(() => ['1%', '80%'], []);
+
+    // callbacks
+    const handleSheetChange = useCallback((index) => {
+        console.log('handleSheetChange', index);
+    }, []);
+    const handleSnapPress = useCallback(() => {
+        sheetRef.current?.snapToIndex(1);
+    }, []);
+    const handleClosePress = useCallback(() => {
+        sheetRef.current?.close();
+    }, []);
 
     const toggleMaterial = (itemId) => {
         const isSelected = selectedMaterial.includes(itemId);
@@ -119,7 +108,7 @@ function KitchenCabinets() {
                     },
                 ]}
             >
-                {item.text}
+                {item.name}
             </Text>
         </TouchableOpacity>
     );
@@ -144,7 +133,7 @@ function KitchenCabinets() {
                     },
                 ]}
             >
-                {item.text}
+                {item.name}
             </Text>
         </TouchableOpacity>
     );
@@ -169,7 +158,7 @@ function KitchenCabinets() {
                     },
                 ]}
             >
-                {item.text}
+                {item.name}
             </Text>
         </TouchableOpacity>
     );
@@ -204,24 +193,24 @@ function KitchenCabinets() {
         setShowKitchenEquipments(false);
     };
 
-    const renderFirstMaterial = () => {
-        if (numberMaterial.length > 0) {
-            const firstFiveMaterials = numberMaterial.slice(0, 5);
-            return (
-                <FlatList
-                    data={firstFiveMaterials}
-                    renderItem={renderMaterial}
-                    horizontal
-                    keyExtractor={(item) => item.id.toString()}
-                />
-            );
-        }
-        return null;
-    };
+    // const renderFirstMaterial = () => {
+    //     if (listMeat.length > 0) {
+    //         const firstFiveMeats = listMeat.slice(0, 5);
+    //         return (
+    //             <FlatList
+    //                 data={firstFiveMeats}
+    //                 renderItem={renderMaterial}
+    //                 horizontal
+    //                 keyExtractor={(item) => item.id.toString()}
+    //             />
+    //         );
+    //     }
+    //     return null;
+    // };
 
     const renderFirstVegetable = () => {
-        if (numberVegetable.length > 0) {
-            const firstFiveVegetables = numberVegetable.slice(0, 5);
+        if (listVegetable.length > 0) {
+            const firstFiveVegetables = listVegetable.slice(0, 5);
             return (
                 <FlatList
                     data={firstFiveVegetables}
@@ -235,8 +224,8 @@ function KitchenCabinets() {
     };
 
     const renderFirstKitchenEquipment = () => {
-        if (numberKitchenEquipment.length > 0) {
-            const firstFiveKitchenEquipments = numberKitchenEquipment.slice(0, 5);
+        if (listSpice.length > 0) {
+            const firstFiveKitchenEquipments = listSpice.slice(0, 5);
             return (
                 <FlatList
                     data={firstFiveKitchenEquipments}
@@ -248,6 +237,133 @@ function KitchenCabinets() {
         }
         return null;
     };
+
+    const handleFilterRecipe = async () => {
+        AsyncStorage.getItem('token')
+            .then(async (token) => {
+                if (token) {
+                    const decodedToken = jwtDecode(token);
+                    if (
+                        Array.isArray(decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']) &&
+                        decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'].includes('Premium')
+                    ) {
+                        var recipeFilter = [...selectedMaterial, ...selectedVegetable, ...selectedKitchenEquipment];
+                        await listRecipeByFilter(recipeFilter);
+                    } else {
+                        setShow(true);
+                    }
+                } else {
+                    console.error('Token is null or undefined');
+                }
+            })
+            .catch((error) => {
+                console.error('Error while retrieving token:', error);
+            });
+    };
+
+    //API
+    const getListMeat = async () => {
+        try {
+            const token = await AsyncStorage.getItem('token');
+            const response = await fetch('https://exe201-icc.azurewebsites.net/api/Ingredient/4/details', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            if (response.status === 401) {
+                navigation.navigate('ACCOUNT');
+                return;
+            }
+            if (response.ok) {
+                const responseData = await response.json();
+                setListMeat(responseData);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const getListVegetable = async () => {
+        try {
+            const token = await AsyncStorage.getItem('token');
+            const response = await fetch('https://exe201-icc.azurewebsites.net/api/Ingredient/1/details', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            if (response.ok) {
+                const responseData = await response.json();
+                setListVegetable(responseData);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const getListSpice = async () => {
+        try {
+            const token = await AsyncStorage.getItem('token');
+            const response = await fetch('https://exe201-icc.azurewebsites.net/api/Ingredient/7/details', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            if (response.ok) {
+                const responseData = await response.json();
+                setListSpice(responseData);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const listRecipeByFilter = async (recipeFilter) => {
+        try {
+            const token = await AsyncStorage.getItem('token');
+            const response = await fetch('https://exe201-icc.azurewebsites.net/api/Recipe/ingredients/list', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(recipeFilter),
+            });
+            const newRecipe = await response.json();
+            if (newRecipe) {
+                setRecipe(newRecipe);
+                handleSnapPress();
+            } else {
+                Alert.alert(
+                    'Thông báo',
+                    'Không có món ăn phù hợp, hãy tìm món khác nhé!',
+                    [
+                        {
+                            text: 'OK',
+                            onPress: () => console.log('OK Pressed'),
+                        },
+                    ],
+                    { cancelable: false },
+                );
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    //useAPI
+    useEffect(() => {
+        getListMeat();
+        getListVegetable();
+        getListSpice();
+    }, []);
+
+    console.log(recipe);
 
     return (
         <>
@@ -297,7 +413,7 @@ function KitchenCabinets() {
                             borderTopLeftRadius: 8,
                             borderTopRightRadius: 8,
                         }}
-                        onPress={toggleMaterials}
+                        onPress={toggleAllMaterials}
                     >
                         <Image source={require('../../assets/Kitchen/needMaterial.png')}></Image>
                         <Text
@@ -308,11 +424,11 @@ function KitchenCabinets() {
                                 marginLeft: 2,
                             }}
                         >
-                            Thiết yếu
+                            Thịt các loại
                         </Text>
                     </TouchableOpacity>
-                    {showMaterials && renderFirstMaterial()}
-                    {showMaterials && (
+                    {/* {showMaterials && renderFirstMaterial()} */}
+                    {/* {showMaterials && (
                         <TouchableOpacity
                             style={{
                                 marginBottom: 5,
@@ -325,10 +441,10 @@ function KitchenCabinets() {
                             onPress={toggleAllMaterials}
                         >
                             <Text style={{ fontSize: 16, fontWeight: '500', color: 'rgba(72, 82, 95, 1)' }}>
-                                +31 nguyên liệu
+                                +{listMeat.length - 5} nguyên liệu
                             </Text>
                         </TouchableOpacity>
-                    )}
+                    )} */}
                     {showAllMaterials && (
                         <View
                             style={{
@@ -338,7 +454,7 @@ function KitchenCabinets() {
                                 justifyContent: 'flex-start',
                             }}
                         >
-                            {numberMaterial.map((item) => (
+                            {listMeat.map((item) => (
                                 <FlatList key={item.id} data={[item]} renderItem={renderMaterial} horizontal />
                             ))}
                         </View>
@@ -415,7 +531,7 @@ function KitchenCabinets() {
                             onPress={toggleAllVegetables}
                         >
                             <Text style={{ fontSize: 16, fontWeight: '500', color: 'rgba(72, 82, 95, 1)' }}>
-                                +31 nguyên liệu
+                                +{listVegetable.length - 5} nguyên liệu
                             </Text>
                         </TouchableOpacity>
                     )}
@@ -428,7 +544,7 @@ function KitchenCabinets() {
                                 justifyContent: 'flex-start',
                             }}
                         >
-                            {numberVegetable.map((item) => (
+                            {listVegetable.map((item) => (
                                 <FlatList key={item.id} data={[item]} renderItem={renderVegetable} horizontal />
                             ))}
                         </View>
@@ -488,7 +604,7 @@ function KitchenCabinets() {
                                 marginLeft: 2,
                             }}
                         >
-                            Thiết bị làm bếp
+                            Gia vị
                         </Text>
                     </TouchableOpacity>
                     {showKitchenEquipments && renderFirstKitchenEquipment()}
@@ -505,7 +621,7 @@ function KitchenCabinets() {
                             onPress={toggleAllKitchenEquipments}
                         >
                             <Text style={{ fontSize: 16, fontWeight: '500', color: 'rgba(72, 82, 95, 1)' }}>
-                                +31 Thiết bị
+                                +{listSpice.length - 5} nguyên liệu
                             </Text>
                         </TouchableOpacity>
                     )}
@@ -518,7 +634,7 @@ function KitchenCabinets() {
                                 justifyContent: 'flex-start',
                             }}
                         >
-                            {numberKitchenEquipment.map((item) => (
+                            {listSpice.map((item) => (
                                 <FlatList key={item.id} data={[item]} renderItem={renderKitchenEquipment} horizontal />
                             ))}
                         </View>
@@ -557,10 +673,112 @@ function KitchenCabinets() {
                     alignItems: 'center',
                     backgroundColor: 'rgba(4, 38, 40, 1)',
                 }}
-                onPress={() => setShow(true)}
+                // onPress={() => setShow(true)}
+                onPress={handleFilterRecipe}
             >
                 <Text style={{ color: 'white', fontWeight: 'bold' }}>Hoàn thành</Text>
             </TouchableOpacity>
+
+            <BottomSheet
+                style={styles.bottomSheetContainer}
+                ref={sheetRef}
+                index={0}
+                snapPoints={snapPoints}
+                onChange={handleSheetChange}
+            >
+                <ScrollView
+                    style={{
+                        width: 327,
+                        margin: 5,
+                    }}
+                >
+                    {recipe.map((item) => (
+                        <TouchableOpacity
+                            style={{
+                                margin: 2,
+                                height: 82,
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                justifyContent: 'flex-start',
+                                borderRadius: 8,
+                                backgroundColor: 'white',
+                                shadowColor: 'black',
+                                shadowOffset: { width: 0, height: 2 },
+                                shadowOpacity: 0.2,
+                                shadowRadius: 4,
+                                elevation: 2,
+                            }}
+                            key={item.id}
+                            onPress={() => navigation.navigate('DishesDetail', { itemData: item })}
+                        >
+                            <Image
+                                style={{ height: 52, width: 52, resizeMode: 'cover', marginLeft: 8, borderRadius: 8 }}
+                                source={{
+                                    uri: item.imgLink,
+                                }}
+                            ></Image>
+                            <View style={{ paddingLeft: 12 }}>
+                                <Text>{item.name}</Text>
+                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                    <Image
+                                        style={{ marginRight: 2 }}
+                                        source={require('../../assets/Star.png')}
+                                        resizeMode="contain"
+                                    ></Image>
+                                    <Text style={{ marginRight: 4 }}>4.5</Text>
+                                    <Image
+                                        style={{ marginRight: 2 }}
+                                        source={require('../../assets/Dishes/TimeCircleDishes.png')}
+                                        resizeMode="contain"
+                                    ></Image>
+                                    <Text>{item.cookingTime}</Text>
+                                </View>
+                                <View style={{ flexDirection: 'row' }}>
+                                    <View style={styles.tagView}>
+                                        <Text
+                                            style={{
+                                                marginTop: 1,
+                                                marginBottom: 1,
+                                                marginLeft: 4,
+                                                marginRight: 4,
+                                                color: 'white',
+                                            }}
+                                        >
+                                            {item.energy} cal
+                                        </Text>
+                                    </View>
+                                    <View style={styles.tagView}>
+                                        <Text
+                                            style={{
+                                                marginTop: 1,
+                                                marginBottom: 1,
+                                                marginLeft: 4,
+                                                marginRight: 4,
+                                                color: 'white',
+                                            }}
+                                        >
+                                            {item.servingSize} người
+                                        </Text>
+                                    </View>
+                                    <View style={styles.tagView}>
+                                        <Text
+                                            style={{
+                                                marginTop: 1,
+                                                marginBottom: 1,
+                                                marginLeft: 4,
+                                                marginRight: 4,
+                                                color: 'white',
+                                            }}
+                                        >
+                                            {item.meals}
+                                        </Text>
+                                    </View>
+                                </View>
+                            </View>
+                        </TouchableOpacity>
+                    ))}
+                </ScrollView>
+            </BottomSheet>
 
             <Modal transparent={true} visible={show}>
                 <View style={styles.modalContainer}>
@@ -672,6 +890,16 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: '#FFFFFF',
         textAlign: 'center',
+    },
+    bottomSheetContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 16,
+        shadowColor: 'black',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.4,
+        shadowRadius: 4,
+        elevation: 6,
     },
 });
 

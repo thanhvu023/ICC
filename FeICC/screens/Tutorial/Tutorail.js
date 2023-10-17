@@ -3,6 +3,7 @@ import { View, StyleSheet, Image, Text, TouchableOpacity, Dimensions } from 'rea
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
 import { useNavigation } from '@react-navigation/native';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const Step_Picture = [
     {
@@ -28,9 +29,10 @@ const Step_Picture = [
 ];
 
 const { width } = Dimensions.get('window');
-function Tutorial() {
+function Tutorial({ route }) {
     const navigation = useNavigation();
     const swiperRef = useRef(null);
+    const { itemName, itemStep } = route.params;
 
     // hooks
     const sheetRef = useRef(null);
@@ -53,14 +55,14 @@ function Tutorial() {
         (item, index) => (
             <View key={index} style={styles.itemContainer}>
                 <Text style={styles.stepTitleBottomSheet}>BƯỚC {`${index + 1}`}</Text>
-                <Text>{`${item.title}`}</Text>
+                <Text>{`${item.description}`}</Text>
             </View>
         ),
         [],
     );
 
     const handleContinue = () => {
-        if (swiperRef.current.getCurrentIndex() < Step_Picture.length - 1) {
+        if (swiperRef.current.getCurrentIndex() < itemStep.length - 1) {
             swiperRef.current.scrollToIndex({ index: swiperRef.current.getCurrentIndex() + 1 });
         }
     };
@@ -68,30 +70,45 @@ function Tutorial() {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <Image source={require('../../assets/arrowLeft.png')} style={styles.headerImage} />
+                <TouchableOpacity onPress={navigation.goBack}>
+                    <Image source={require('../../assets/arrowLeft.png')} style={styles.headerImage} />
+                </TouchableOpacity>
                 <View style={styles.headerContent}>
-                    <Text style={styles.headerTitle}>Đậu Hũ Tứ Xuyên</Text>
+                    <Text style={styles.headerTitle}>{itemName}</Text>
                 </View>
                 <View></View>
             </View>
 
             <SwiperFlatList
                 index={0}
-                data={Step_Picture}
+                data={itemStep}
                 snapToAlignment="center"
                 ref={swiperRef}
                 style={styles.wrapper}
                 renderItem={({ item, index }) => (
-                    <View key={item.id} style={styles.slide}>
-                        <View key={item.id} style={styles.slide}>
+                    <View key={item.index} style={styles.slide}>
+                        <View key={item.index} style={styles.slide}>
                             <View style={styles.redBox}>
-                                <Image source={item.url} style={styles.stepImage} />
+                                <Image
+                                    source={{
+                                        uri: item.mediaURl,
+                                    }}
+                                    style={styles.stepImage}
+                                />
                             </View>
                             <View style={styles.blueBox}>
-                                <Text style={styles.stepTitle}>{item.title}</Text>
+                                <ScrollView
+                                    style={{
+                                        width: '86%',
+
+                                        padding: 10,
+                                    }}
+                                >
+                                    <Text style={styles.stepTitle}>{item.description}</Text>
+                                </ScrollView>
                                 <View style={styles.row}>
                                     <Text style={styles.leftContent}>
-                                        Bước {index + 1}/{Step_Picture.length}
+                                        Bước {index + 1}/{itemStep.length}
                                     </Text>
                                     <TouchableOpacity style={styles.rightContent} onPress={handleSnapPress}>
                                         <Text>Xem tất cả</Text>
@@ -100,12 +117,12 @@ function Tutorial() {
                                 <View style={styles.progressBarContainer}>
                                     <View
                                         style={{
-                                            width: `${((index + 1) / Step_Picture.length) * 100}%`,
+                                            width: `${((index + 1) / itemStep.length) * 100}%`,
                                             ...styles.progressBar,
                                         }}
                                     />
                                 </View>
-                                {index === Step_Picture.length - 1 ? (
+                                {index === itemStep.length - 1 ? (
                                     <TouchableOpacity
                                         onPress={() => navigation.navigate('CompleteTutorial')}
                                         style={styles.continueButton}
@@ -130,7 +147,7 @@ function Tutorial() {
                 onChange={handleSheetChange}
             >
                 <BottomSheetScrollView contentContainerStyle={styles.contentContainer}>
-                    {Step_Picture.map(renderItem)}
+                    {itemStep.map(renderItem)}
                 </BottomSheetScrollView>
                 <TouchableOpacity onPress={handleClosePress} style={styles.backBottomSheet}>
                     <Text style={styles.elseButtonText}>Quay lại</Text>
@@ -193,10 +210,10 @@ const styles = StyleSheet.create({
         borderRadius: 50,
     },
     stepTitle: {
-        width: '86%',
+        width: '100%',
         fontSize: 18,
-
         color: 'black',
+        marginTop: '20%',
     },
     continueButton: {
         width: '86%',
