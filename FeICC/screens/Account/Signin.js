@@ -37,10 +37,13 @@ export default function Signin() {
         <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
             <View style={{ flex: 1, marginHorizontal: 22 }}>
                 <View style={{ marginVertical: 22 }}>
-                    <View>
-                        <Pressable onPress={() => navigation.goBack()} style={styles.backButton}>
-                            <Text style={styles.backButtonText}>←</Text>
-                        </Pressable>
+                    <View style={styles.header}>
+                        <View>
+                            <Pressable onPress={() => navigation.goBack()} style={styles.backButton}>
+                                <Text style={styles.backButtonText}>←</Text>
+                            </Pressable>
+                        </View>
+
                         <Text style={styles.heading}>Đăng nhập</Text>
                     </View>
 
@@ -177,12 +180,20 @@ export default function Signin() {
     );
 }
 const styles = StyleSheet.create({
+    header: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginBottom: 20,
+        marginTop: 50,
+    },
     heading: {
         fontSize: 22,
         fontWeight: 'bold',
         marginVertical: 12,
-        marginLeft: 130,
         color: COLORS.black,
+        textAlign: 'center',
+        marginRight: 120,
     },
     subHeading: {
         fontSize: 16,

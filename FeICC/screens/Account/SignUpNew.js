@@ -44,6 +44,31 @@ export default function SignUpNew() {
             ...fixedData,
         };
 
+        if (name.trim() === '') {
+            alert('Vui lòng nhập họ và tên.');
+            return;
+        }
+
+        if (email.trim() === '') {
+            alert('Vui lòng nhập email.');
+            return;
+        }
+
+        if (password.trim() === '') {
+            alert('Vui lòng nhập mật khẩu.');
+            return;
+        }
+
+        if (confirmPassword.trim() === '') {
+            alert('Vui lòng nhập xác nhận mật khẩu.');
+            return;
+        }
+
+        if (phoneNumber.trim() === '') {
+            alert('Vui lòng nhập số điện thoại.');
+            return;
+        }
+
         if (!isEmailValid(email)) {
             alert('Email không hợp lệ. Vui lòng kiểm tra lại.');
             return;
@@ -85,10 +110,15 @@ export default function SignUpNew() {
         <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
             <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
                 <View style={{ flex: 1, marginHorizontal: 22 }}>
-                    <Pressable onPress={() => navigation.goBack()} style={styles.backButton}>
-                        <Text style={styles.backButtonText}>←</Text>
-                    </Pressable>
-                    <Text style={styles.heading}>Tạo tài khoản</Text>
+                    <View style={styles.header}>
+                        <View>
+                            <Pressable onPress={() => navigation.goBack()} style={styles.backButton}>
+                                <Text style={styles.backButtonText}>←</Text>
+                            </Pressable>
+                        </View>
+
+                        <Text style={styles.heading}>Tạo tài khoản</Text>
+                    </View>
                     <View style={styles.bodyForm}>
                         <Text style={styles.subHeading}>Họ và tên</Text>
                         <View style={{ marginBottom: 12 }}>
@@ -210,12 +240,20 @@ export default function SignUpNew() {
 }
 
 const styles = StyleSheet.create({
+    header: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginBottom: 20,
+        marginTop: 50,
+    },
     heading: {
         fontSize: 22,
         fontWeight: 'bold',
         marginVertical: 12,
         color: COLORS.black,
         textAlign: 'center',
+        marginRight: 100,
     },
     subHeading: {
         fontSize: 16,
