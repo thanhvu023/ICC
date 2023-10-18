@@ -81,9 +81,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace 'com.thanhvu023.FeICC'
+    namespace 'com.exe201.feicc'
     defaultConfig {
-        applicationId 'com.thanhvu023.FeICC'
+        applicationId 'com.exe201.feicc'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

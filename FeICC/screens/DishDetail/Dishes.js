@@ -1,15 +1,16 @@
 import React, { useState, useRef, useMemo, useCallback, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, Image, StyleSheet, FlatList } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import BottomSheet from '@gorhom/bottom-sheet';
 import RangeSlider from '../../navigation/RangeSlider';
 import { useNavigation } from '@react-navigation/native';
 
-// const foodData = [
-//     { id: 1, name: 'Đậu hủ tứ xuyên', isNew: true },
-//     { id: 2, name: 'Phở', isNew: false },
-//     { id: 3, name: 'Hủ tiếu bò kho', isNew: false },
-//     { id: 4, name: 'Gỏi cuốn tôm thịt', isNew: true },
-// ];
+const foodData = [
+    { id: 1, name: 'Đậu hủ tứ xuyên', isNew: true },
+    { id: 2, name: 'Phở', isNew: false },
+    { id: 3, name: 'Hủ tiếu bò kho', isNew: false },
+    { id: 4, name: 'Gỏi cuốn tôm thịt', isNew: true },
+];
 
 const items = [
     { id: 1, text: 'Sáng' },
@@ -28,6 +29,7 @@ const rating = [
     { id: 1, text: 'Trên 3 sao' },
     { id: 2, text: 'Trên 4 sao' },
 ];
+
 function Dishes() {
     const [searchText, setSearchText] = useState('');
     const [showHotDishes, setShowHotDishes] = useState(true);
@@ -148,7 +150,14 @@ function Dishes() {
     //API
     const getListFoodData = async () => {
         try {
-            const response = await fetch('https://exe201-icc.azurewebsites.net/api/Recipe/get-all-recipes');
+            const token = await AsyncStorage.getItem('token');
+            const response = await fetch('https://exe201-icc.azurewebsites.net/api/Recipe/get-all', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+            });
             if (response.ok) {
                 const responseData = await response.json();
                 setListFoodData(responseData);
@@ -224,7 +233,7 @@ function Dishes() {
                         >
                             <Text>Bạn có thể nấu</Text>
                             <Text style={{ fontSize: 20, fontWeight: '700' }}>{listFoodData.length} món</Text>
-                            <Text>từ 34 nguyên liệu của bạn</Text>
+                            {/* <Text>từ 34 nguyên liệu của bạn</Text> */}
                             <TouchableOpacity
                                 style={{
                                     justifyContent: 'center',

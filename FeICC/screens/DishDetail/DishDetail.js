@@ -1,54 +1,10 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, ImageBackground, Dimensions, TouchableOpacity, Image } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import ReadMoreLessButton from '../../navigation/ReadMoreLessButton';
 import { useNavigation } from '@react-navigation/native';
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
 
-const Step_Picture = [
-    {
-        url: require('../../assets/StepImage/Step1.png'),
-        title: 'Cho nấm khô và tảo bẹ kombu vào chén nhỏ hoặc và đổ nước phủ bề mặt. Đặt một miếng khăn giấy lên mặt nước để giữ nấm ngấm đều nước trong 10 phút.',
-        id: '1',
-    },
-    {
-        url: require('../../assets/StepImage/Step2.png'),
-        title: 'Xay nhuyễn nấm mỡ, xào lửa lớn với dầu thực vật liên tục cho đến khi nấm khô lại và chín vàng đều trong 6 đến 10 phút. Chắt dầu ra chén nhỏ, lấy nấm mỡ đã xào cho một cái tô cỡ vừa, rồi đổ dầu lại vào chảo.',
-        id: '2',
-    },
-    {
-        url: require('../../assets/StepImage/Step3.png'),
-        title: 'Quay lại chén nấm khô, chắt nước và chừa lại 3/4 cốc nước ngâm. Cho bột bắp và nước tương vào nước ngâm. Xắt nhỏ nấm khô, sau đó cho vào chung với nấm mỡ vừa chiên.',
-        id: '3',
-    },
-    {
-        url: require('../../assets/StepImage/Step4.png'),
-        title: 'Cho toàn bộ hạt tiêu Tứ Xuyên và ớt vào chảo dầu và đun ở lửa lớn. Nấu cho đến khi toả mùi thơm. Chú ý không nấu quá chín, đề phòng cháy. Chắt dầu lưới lọc mịn, bỏ hạt tiêu và ớt đi, rồi cho dầu trở lại chảo.',
-        id: '4',
-    },
-];
-
-const Material = [
-    {
-        title: 'Đậu hũ',
-        description: '6 lạng, cắt thành khối vuông',
-        id: '1',
-    },
-    {
-        title: 'Nấm mộc nhĩ khô',
-        description: '4 miếng',
-        id: '2',
-    },
-    {
-        title: 'Nấm mỡ',
-        description: '170g, cắt làm tư, bỏ cuống',
-        id: '3',
-    },
-    {
-        title: 'Dầu thực vật',
-        description: '1/3 chén',
-        id: '4',
-    },
-];
 const comment = [
     {
         title: 'Huong',
@@ -70,21 +26,19 @@ const comment = [
 const { width, height } = Dimensions.get('window');
 
 const renderItems = (data) => {
-    return data.map((item, index) => (
-        <View key={item.id} style={styles.itemContainer}>
-            <Text style={{ fontSize: 12, color: 'rgba(255, 122, 0, 1)', fontWeight: 'bold' }}>
-                BƯỚC {`${index + 1}`}
-            </Text>
-            <Text style={{ fontSize: 14, color: 'rgba(10, 37, 51, 1)' }}>{item.title}</Text>
+    return data.map((item) => (
+        <View key={item.index} style={styles.itemContainer}>
+            <Text style={{ fontSize: 12, color: 'rgba(255, 122, 0, 1)', fontWeight: 'bold' }}>BƯỚC {item.index}</Text>
+            <Text style={{ fontSize: 14, color: 'rgba(10, 37, 51, 1)' }}>{item.description}</Text>
         </View>
     ));
 };
 
 const renderMaterial = (data) => {
-    return data.map((item) => (
-        <View key={item.id} style={styles.itemContainer}>
-            <Text style={{ fontSize: 16, color: 'rgba(10, 37, 51, 1)' }}>{item.title}</Text>
-            <Text style={{ fontSize: 14, color: 'rgba(10, 37, 51, 1)' }}>{item.description}</Text>
+    return data.map((item, index) => (
+        <View key={index} style={styles.itemContainer}>
+            <Text style={{ fontSize: 16, color: 'rgba(10, 37, 51, 1)' }}>{item.ingredientName}</Text>
+            <Text style={{ fontSize: 14, color: 'rgba(10, 37, 51, 1)' }}>{item.amount}</Text>
         </View>
     ));
 };
@@ -97,11 +51,14 @@ const renderComment = (data) => {
         </View>
     ));
 };
+
 function DishDetail({ route }) {
     const [selectedTab, setSelectedTab] = useState('nguyenlieu');
     const swiperRef = useRef(null);
     const navigation = useNavigation();
     const [listFoodData, setListFoodData] = useState([]);
+    const [listFoodStep, setListFoodStep] = useState([]);
+    const [listFoodMaterial, setListFoodMaterial] = useState([]);
     const { itemData } = route.params;
 
     const renderContent = () => {
@@ -120,7 +77,7 @@ function DishDetail({ route }) {
                         18 nguyên liệu - bạn chỉ thiếu 2 món!
                     </Text>
 
-                    {renderMaterial(Material)}
+                    {renderMaterial(listFoodMaterial)}
                 </View>
             );
         } else if (selectedTab === 'chebien') {
@@ -137,13 +94,15 @@ function DishDetail({ route }) {
                                 width: 80,
                                 height: 30,
                             }}
-                            onPress={() => navigation.navigate('Tutorial')}
+                            onPress={() =>
+                                navigation.navigate('Tutorial', { itemName: itemData.name, itemStep: listFoodStep })
+                            }
                         >
                             <Text style={{ color: 'white' }}>Bắt đầu</Text>
                         </TouchableOpacity>
                     </View>
-                    <Text style={{ fontSize: 16, color: 'rgba(116, 129, 137, 1)' }}>4 bước</Text>
-                    {renderItems(Step_Picture)}
+                    <Text style={{ fontSize: 16, color: 'rgba(116, 129, 137, 1)' }}>{listFoodStep.length} bước</Text>
+                    {renderItems(listFoodStep)}
                 </View>
             );
         }
@@ -151,7 +110,14 @@ function DishDetail({ route }) {
     //API
     const getListFoodData = async () => {
         try {
-            const response = await fetch('https://exe201-icc.azurewebsites.net/api/Recipe/get-all-recipes');
+            const token = await AsyncStorage.getItem('token');
+            const response = await fetch('https://exe201-icc.azurewebsites.net/api/Recipe/get-all', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+            });
             if (response.ok) {
                 const responseData = await response.json();
                 setListFoodData(responseData);
@@ -161,9 +127,55 @@ function DishDetail({ route }) {
         }
     };
 
+    const getFoodStep = async () => {
+        try {
+            const token = await AsyncStorage.getItem('token');
+            const response = await fetch(
+                `https://exe201-icc.azurewebsites.net/api/RecipeStep/get-by-recipe-id/${itemData.id}`,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`,
+                    },
+                },
+            );
+            if (response.ok) {
+                const responseData = await response.json();
+                setListFoodStep(responseData);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const getFoodMaterial = async () => {
+        try {
+            const token = await AsyncStorage.getItem('token');
+            const response = await fetch(
+                `https://exe201-icc.azurewebsites.net/api/Recipe/${itemData.id}/recipeamount`,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`,
+                    },
+                },
+            );
+            if (response.ok) {
+                const responseData = await response.json();
+                setListFoodMaterial(responseData);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     //useAPI
     useEffect(() => {
         getListFoodData();
+        getFoodStep();
+        getFoodMaterial();
     }, []);
 
     return (
