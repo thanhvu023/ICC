@@ -1,4 +1,4 @@
-package com.exe201.icc;
+package com.exe201.feicc;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -7,8 +7,6 @@ import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
 import com.facebook.react.defaults.DefaultReactActivityDelegate;
-import com.feicc.BuildConfig;
-import com.feicc.R;
 
 import expo.modules.ReactActivityDelegateWrapper;
 
