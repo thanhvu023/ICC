@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, Image, ScrollView, StyleSheet } from 'rea
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from '@expo/vector-icons/FontAwesome';
+import { useNavigation } from '@react-navigation/native';
 
 const categories = [
     { name: 'Truyền thống', icon: 'coffee' },
@@ -19,6 +20,7 @@ function HomePage() {
     const [listFoodData, setListFoodData] = useState([]);
     const [listFoodByMeals, setListFoodByMeals] = useState([]);
     const [token, setToken] = useState(null);
+    const navigation = useNavigation();
 
     useEffect(() => {
         getAuthTokenFromStorage();
@@ -97,84 +99,11 @@ function HomePage() {
                     snapToAlignment="start"
                     style={{ padding: 5 }}
                     renderItem={({ item }) => (
-                        <View key={item.id} style={{ width: 149, height: 189, justifyContent: 'center', margin: 5 }}>
-                            <View
-                                style={{
-                                    width: 149,
-                                    height: 189,
-                                    justifyContent: 'center',
-                                    borderRadius: 16,
-                                    backgroundColor: 'red',
-                                    overflow: 'hidden',
-                                }}
-                            >
-                                <Image
-                                    source={{
-                                        uri: item.imgLink,
-                                    }}
-                                    style={{ width: '100%', height: '100%' }}
-                                    resizeMode="cover"
-                                />
-                            </View>
-                            <View
-                                style={{
-                                    position: 'absolute',
-                                    bottom: 0,
-                                    borderBottomLeftRadius: 16,
-                                    borderBottomRightRadius: 16,
-                                    backgroundColor: 'rgba(10, 37, 51, 0.5)',
-                                    width: '100%',
-                                    padding: 10,
-                                }}
-                            >
-                                <Text style={{ color: 'white', fontWeight: '600', fontSize: 14 }}>{item.name}</Text>
-                                <View style={{ flexDirection: 'row', paddingTop: 5 }}>
-                                    <Image
-                                        style={{ marginRight: 2 }}
-                                        source={require('../../assets/Dishes/TimeCircleWhite.png')}
-                                    />
-                                    <Text style={{ color: 'white' }}>{item.cookingTime} phút</Text>
-                                </View>
-                            </View>
-                        </View>
-                    )}
-                />
-                <View style={styles.containerCategory}>
-                    <Text style={styles.title}>Danh mục</Text>
-                    <View style={styles.categoryContainer}>
-                        <View style={styles.row}>
-                            {categories.slice(0, 4).map((category, index) => (
-                                <TouchableOpacity key={index} style={styles.categoryItem}>
-                                    <Icon name={category.icon} size={24} color="black" />
-                                    <Text style={styles.categoryText}>{category.name}</Text>
-                                </TouchableOpacity>
-                            ))}
-                        </View>
-                        <View style={styles.row}>
-                            {categories.slice(4, 8).map((category, index) => (
-                                <TouchableOpacity key={index} style={styles.categoryItem}>
-                                    <Icon name={category.icon} size={24} color="black" />
-                                    <Text style={styles.categoryText}>{category.name}</Text>
-                                </TouchableOpacity>
-                            ))}
-                        </View>
-                    </View>
-                </View>
-
-                <View>
-                    <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'rgba(10, 37, 51, 1)' }}>
-                        Bữa ăn của bạn như thế nào?
-                    </Text>
-                    <Text style={{ fontSize: 14, color: 'rgba(10, 37, 51, 1)' }}>
-                        Hãy review món ăn bạn đã nấu nhé:
-                    </Text>
-                    <SwiperFlatList
-                        index={0}
-                        data={listFoodByMeals.slice(0, 4)}
-                        horizontal
-                        snapToAlignment="start"
-                        style={{ padding: 5 }}
-                        renderItem={({ item }) => (
+                        <TouchableOpacity
+                            key={item.id}
+                            style={{ width: 149, height: 189, justifyContent: 'center', margin: 5 }}
+                            onPress={() => navigation.navigate('DishesDetail', { itemData: item })}
+                        >
                             <View
                                 key={item.id}
                                 style={{ width: 149, height: 189, justifyContent: 'center', margin: 5 }}
@@ -214,14 +143,104 @@ function HomePage() {
                                             style={{ marginRight: 2 }}
                                             source={require('../../assets/Dishes/TimeCircleWhite.png')}
                                         />
-                                        <Text style={{ color: 'white' }}>{item.meals} </Text>
+                                        <Text style={{ color: 'white' }}>{item.cookingTime} phút</Text>
                                     </View>
                                 </View>
                             </View>
+                        </TouchableOpacity>
+                    )}
+                />
+                <View style={styles.containerCategory}>
+                    <Text style={styles.title}>Danh mục</Text>
+                    <View style={styles.categoryContainer}>
+                        <View style={styles.row}>
+                            {categories.slice(0, 4).map((category, index) => (
+                                <TouchableOpacity key={index} style={styles.categoryItem}>
+                                    <Icon name={category.icon} size={24} color="black" />
+                                    <Text style={styles.categoryText}>{category.name}</Text>
+                                </TouchableOpacity>
+                            ))}
+                        </View>
+                        <View style={styles.row}>
+                            {categories.slice(4, 8).map((category, index) => (
+                                <TouchableOpacity key={index} style={styles.categoryItem}>
+                                    <Icon name={category.icon} size={24} color="black" />
+                                    <Text style={styles.categoryText}>{category.name}</Text>
+                                </TouchableOpacity>
+                            ))}
+                        </View>
+                    </View>
+                </View>
+
+                <View>
+                    <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'rgba(10, 37, 51, 1)' }}>
+                        Bữa ăn của bạn như thế nào?
+                    </Text>
+                    <Text style={{ fontSize: 14, color: 'rgba(10, 37, 51, 1)' }}>
+                        Hãy review món ăn bạn đã nấu nhé:
+                    </Text>
+                    <SwiperFlatList
+                        index={0}
+                        data={listFoodByMeals.slice(0, 4)}
+                        horizontal
+                        snapToAlignment="start"
+                        style={{ padding: 5 }}
+                        renderItem={({ item }) => (
+                            <TouchableOpacity
+                                key={item.id}
+                                style={{ width: 149, height: 189, justifyContent: 'center', margin: 5 }}
+                                onPress={() => navigation.navigate('DishesDetail', { itemData: item })}
+                            >
+                                <View
+                                    key={item.id}
+                                    style={{ width: 149, height: 189, justifyContent: 'center', margin: 5 }}
+                                >
+                                    <View
+                                        style={{
+                                            width: 149,
+                                            height: 189,
+                                            justifyContent: 'center',
+                                            borderRadius: 16,
+                                            backgroundColor: 'red',
+                                            overflow: 'hidden',
+                                        }}
+                                    >
+                                        <Image
+                                            source={{
+                                                uri: item.imgLink,
+                                            }}
+                                            style={{ width: '100%', height: '100%' }}
+                                            resizeMode="cover"
+                                        />
+                                    </View>
+                                    <View
+                                        style={{
+                                            position: 'absolute',
+                                            bottom: 0,
+                                            borderBottomLeftRadius: 16,
+                                            borderBottomRightRadius: 16,
+                                            backgroundColor: 'rgba(10, 37, 51, 0.5)',
+                                            width: '100%',
+                                            padding: 10,
+                                        }}
+                                    >
+                                        <Text style={{ color: 'white', fontWeight: '600', fontSize: 14 }}>
+                                            {item.name}
+                                        </Text>
+                                        <View style={{ flexDirection: 'row', paddingTop: 5 }}>
+                                            <Image
+                                                style={{ marginRight: 2 }}
+                                                source={require('../../assets/Dishes/TimeCircleWhite.png')}
+                                            />
+                                            <Text style={{ color: 'white' }}>{item.meals} </Text>
+                                        </View>
+                                    </View>
+                                </View>
+                            </TouchableOpacity>
                         )}
                     />
-                    <Text style={{ fontSize: 20, fontWeight: 'bold', marginTop: 16 }}>Món hot bạn đã thử chưa?</Text>
-                    {listFoodData.slice(0, 5).map((item) => (
+                    <Text style={{ fontSize: 20, fontWeight: 'bold', marginTop: 16 }}>Có thể bạn muốn thử?</Text>
+                    {listFoodData.slice(0, 4).map((item) => (
                         <TouchableOpacity
                             style={{
                                 margin: 2,
