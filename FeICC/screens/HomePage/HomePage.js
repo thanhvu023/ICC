@@ -6,14 +6,9 @@ import Icon from '@expo/vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 
 const categories = [
-    { name: 'Truyền thống', icon: 'coffee' },
-    { name: 'Món chiên', icon: 'cutlery' },
-    { name: 'Hải sản', icon: 'anchor' },
-    { name: 'Ăn vặt', icon: 'heart' },
-    { name: 'Mỳ và phở', icon: 'spoon' },
-    { name: 'Ăn kiêng', icon: 'leaf' },
-    { name: 'Làm bánh', icon: 'birthday-cake' },
-    { name: 'Quốc tế', icon: 'globe' },
+    { name: 'Sáng', icon: 'coffee' },
+    { name: 'Trưa', icon: 'cutlery' },
+    { name: 'Tối', icon: 'anchor' },
 ];
 
 function HomePage() {
@@ -87,9 +82,6 @@ function HomePage() {
                         <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'rgba(10, 37, 51, 1)' }}>
                             Món ngon nổi bật
                         </Text>
-                        <TouchableOpacity onPress={() => navigation.navigate('Dishes')}>
-                            <Text style={{ color: 'rgba(255, 122, 0, 1)' }}>Xem tất cả</Text>
-                        </TouchableOpacity>
                     </View>
                 </View>
                 <SwiperFlatList
@@ -154,7 +146,7 @@ function HomePage() {
                     <Text style={styles.title}>Danh mục</Text>
                     <View style={styles.categoryContainer}>
                         <View style={styles.row}>
-                            {categories.slice(0, 4).map((category, index) => (
+                            {categories.slice(0, 3).map((category, index) => (
                                 <TouchableOpacity key={index} style={styles.categoryItem}>
                                     <Icon name={category.icon} size={24} color="black" />
                                     <Text style={styles.categoryText}>{category.name}</Text>
@@ -230,9 +222,9 @@ function HomePage() {
                                         <View style={{ flexDirection: 'row', paddingTop: 5 }}>
                                             <Image
                                                 style={{ marginRight: 2 }}
-                                                source={require('../../assets/Dishes/TimeCircleWhite.png')}
+                                                source={require('../../assets/Dishes/kcal.png')}
                                             />
-                                            <Text style={{ color: 'white' }}>{item.meals} </Text>
+                                            <Text style={{ color: 'white' }}>{item.energy} calories </Text>
                                         </View>
                                     </View>
                                 </View>

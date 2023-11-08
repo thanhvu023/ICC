@@ -45,8 +45,8 @@ export default function QR() {
                     paddingVertical: 10,
                     borderRadius: 5,
                 }}
-                // onPress={() => navigation.navigate('Discover')}
-                onPress={checkAsyncStorage}
+                onPress={() => navigation.navigate('Discover')}
+                // onPress={checkAsyncStorage}
             >
                 <Text
                     style={{

@@ -188,7 +188,7 @@ function DishDetail({ route }) {
                             uri: itemData.imgLink,
                         }}
                     >
-                        <TouchableOpacity style={styles.closeIcon} onPress={() => navigation.navigate('Dishes')}>
+                        <TouchableOpacity style={styles.closeIcon} onPress={() => navigation.goBack()}>
                             <Image source={require('../../assets/CloseSquare.png')} resizeMode="contain"></Image>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.closeIcon}>

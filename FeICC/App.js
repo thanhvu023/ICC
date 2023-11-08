@@ -18,6 +18,8 @@ import Onboarding2 from './screens/Onboarding/custome/Onboarding2';
 import Premium from './screens/Premium/Premium';
 import QR from './screens/Premium/QR';
 import HomePage from './screens/HomePage/HomePage';
+import DishDetail from './screens/DishDetail/DishDetail';
+import Dishes from './screens/DishDetail/Dishes';
 
 export default function App() {
     const Stack = createNativeStackNavigator();
@@ -41,6 +43,8 @@ export default function App() {
                     <Stack.Screen name="CONFIRMOTP" component={ConfirmOTP} options={{ headerShown: false }} />
                     <Stack.Screen name="SIGNUP" component={SignUpNew} options={{ headerShown: false }} />
                     <Stack.Screen name="HOMEPAGE" component={HomePage} options={{ headerShown: false }} />
+                    <Stack.Screen name="DishesDetail" component={DishDetail} options={{ headerShown: false }} />
+                    <Stack.Screen name="Dishes" component={Dishes} options={{ headerShown: false }} />
 
                     <Stack.Screen name="Tutorial" component={Tutorial} options={{ headerShown: false }} />
                     <Stack.Screen
