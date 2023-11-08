@@ -8,6 +8,7 @@ import SignUpNew from './screens/Account/SignUpNew';
 import CompleteTutorial from './screens/Tutorial/CompleteTutorial';
 import BottomTabNavigator from './navigation/BottomTabNavigator';
 import DetailProfile from './screens/Profile/DetailProfile';
+import Notification from './screens/Notification/Notfication';
 import KitchenCabinets from './screens/KitchenCabinets/KitchenCabinets';
 import Signin from './screens/Account/Signin';
 import Welcome from './screens/Account/Welcome';
@@ -18,7 +19,8 @@ import Onboarding2 from './screens/Onboarding/custome/Onboarding2';
 import Premium from './screens/Premium/Premium';
 import QR from './screens/Premium/QR';
 import HomePage from './screens/HomePage/HomePage';
-
+import FavoriteFood from './screens/FavoriteFood/FavoriteFood';
+import MyMeal from './screens/MyMeal/MyMeal';
 export default function App() {
     const Stack = createNativeStackNavigator();
     return (
@@ -41,7 +43,7 @@ export default function App() {
                     <Stack.Screen name="CONFIRMOTP" component={ConfirmOTP} options={{ headerShown: false }} />
                     <Stack.Screen name="SIGNUP" component={SignUpNew} options={{ headerShown: false }} />
                     <Stack.Screen name="HOMEPAGE" component={HomePage} options={{ headerShown: false }} />
-
+                    <Stack.Screen name="NOTIFICATION" component={Notification} options={{ title: 'Thông báo' }} />
                     <Stack.Screen name="Tutorial" component={Tutorial} options={{ headerShown: false }} />
                     <Stack.Screen
                         name="CompleteTutorial"
@@ -49,13 +51,18 @@ export default function App() {
                         options={{ headerShown: false }}
                     />
                     <Stack.Screen name="KitchenCabinets" component={KitchenCabinets} options={{ title: 'Tủ Bếp' }} />
-
                     <Stack.Screen name="DetailProfile" component={DetailProfile} options={{ title: 'Hồ sơ cá nhân' }} />
                     <Stack.Screen
                         name="BottomTabNavigator"
                         component={BottomTabNavigator}
                         options={{ headerShown: false }}
                     />
+                    <Stack.Screen
+                        name="FavoriteFood"
+                        component={FavoriteFood}
+                        options={{ title: 'Món ăn yêu thích' }}
+                    />
+                    <Stack.Screen name="MyMeal" component={MyMeal} options={{ title: 'Bữa ăn của tôi' }} />
                 </Stack.Navigator>
             </NavigationContainer>
         </GestureHandlerRootView>

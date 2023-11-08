@@ -138,7 +138,7 @@ function HomePage() {
                                     }}
                                 >
                                     <Text style={{ color: 'white', fontWeight: '600', fontSize: 14 }}>{item.name}</Text>
-                                    <View style={{ flexDirection: 'row', paddingTop: 5 }}>
+                                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                         <Image
                                             style={{ marginRight: 2 }}
                                             source={require('../../assets/Dishes/TimeCircleWhite.png')}
@@ -227,7 +227,7 @@ function HomePage() {
                                         <Text style={{ color: 'white', fontWeight: '600', fontSize: 14 }}>
                                             {item.name}
                                         </Text>
-                                        <View style={{ flexDirection: 'row', paddingTop: 5 }}>
+                                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                             <Image
                                                 style={{ marginRight: 2 }}
                                                 source={require('../../assets/Dishes/TimeCircleWhite.png')}
