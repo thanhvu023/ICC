@@ -1,5 +1,5 @@
 import React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { BottomTabBar, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Profile from '../screens/Profile/Profile';
 import Tutorial from '../screens/Tutorial/Tutorail';
 import Welcome from '../screens/Account/Welcome';
@@ -9,6 +9,10 @@ import DetailProfile from '../screens/Profile/DetailProfile';
 import DishDetail from '../screens/DishDetail/DishDetail';
 import Dishes from '../screens/DishDetail/Dishes';
 import HomePage from '../screens/HomePage/HomePage';
+import { MaterialIcons } from '@expo/vector-icons';
+import { NavigationContainer } from '@react-navigation/native';
+import { BottomTabBarWrapper, MultiBarButton, MultiBarProvider } from 'react-native-multibar-crosslisting';
+import { TouchIcon } from '../components/TouchIcon';
 
 const Tab = createBottomTabNavigator();
 
@@ -17,32 +21,40 @@ const DishesStack = createStackNavigator();
 
 function BottomTabNavigator() {
     return (
-        <Tab.Navigator
-            initialRouteName="Home"
-            screenOptions={({ route }) => ({
-                tabBarActiveTintColor: '#FF7A00',
-                tabBarLabel: () => null,
-                tabBarIcon: ({ focused }) => {
-                    let iconSource;
-                    let routeName = route.name;
-                    if (routeName === 'Home') {
-                        iconSource = require('../assets/BottomBarIcons/Home.png');
-                    } else if (routeName === 'Discover') {
-                        iconSource = require('../assets/BottomBarIcons/Group.png');
-                    } else if (routeName === 'Leaderboard') {
-                        iconSource = require('../assets/BottomBarIcons/Wheat.png');
-                    } else if (routeName === 'Profile') {
-                        iconSource = require('../assets/BottomBarIcons/Profile.png');
-                    }
-                    return <Image source={iconSource} style={{ tintColor: focused ? '#FF7A00' : undefined }} />;
-                },
-            })}
-        >
-            <Tab.Screen name="Home" component={HomePage} options={{ headerShown: false }} />
-            <Tab.Screen name="Discover" component={DishesStackScreens} options={{ headerShown: false }} />
-            <Tab.Screen name="Leaderboard" component={Welcome} options={{ headerShown: false }} />
-            <Tab.Screen name="Profile" component={ProfileStackScreens} options={{ headerShown: false }} />
-        </Tab.Navigator>
+
+        <NavigationContainer independent={true}>
+            <MultiBarProvider
+                data={[
+                    ({ navigation }) => (
+                        <TouchIcon
+                            name="chevron-left"
+                            color="#E24E1B"
+                            size={25}
+                            onPress={() => {
+                                if (navigation.canGoBack()) {
+                                    navigation.goBack();
+                                }
+                            }}
+                        />
+                    ),
+                    ({ navigation }) => (
+                        <TouchIcon
+                            name="flag"
+                            color="#E24E1B"
+                            size={25}
+                            onPress={() => {
+                            }}
+                        />
+                    ),
+                ]}
+                iconSize={40}
+                // overlayRadius={100}
+                initialExtrasVisible={false}
+            >
+                <TempStackScreens />
+            </MultiBarProvider>
+        </NavigationContainer>
+
     );
 }
 
@@ -58,6 +70,65 @@ const ProfileStackScreens = () => (
         <ProfileStack.Screen name="ProfileOutlook" component={Profile} options={{ title: 'Góc của tôi' }} />
     </ProfileStack.Navigator>
 );
+
+const TempStackScreens = () => (
+
+    <Tab.Navigator
+        initialRouteName="Home"
+        screenOptions={({ route }) => ({
+            tabBarActiveTintColor: '#FF7A00',
+            tabBarLabel: () => null,
+            tabBarIcon: ({ focused }) => {
+                let iconSource;
+                let routeName = route.name;
+                if (routeName === 'Home') {
+                    iconSource = require('../assets/BottomBarIcons/Home.png');
+                } else if (routeName === 'Discover') {
+                    iconSource = require('../assets/BottomBarIcons/Group.png');
+                } else if (routeName === 'Leaderboard') {
+                    iconSource = require('../assets/BottomBarIcons/Wheat.png');
+                } else if (routeName === 'Profile') {
+                    iconSource = require('../assets/BottomBarIcons/Profile.png');
+                }
+                return <Image source={iconSource} style={{ tintColor: focused ? '#FF7A00' : undefined }} />;
+            },
+        })}
+
+        tabBar={(props) => (
+            <BottomTabBarWrapper navigation={props.navigation}>
+                <BottomTabBar {...props} />
+            </BottomTabBarWrapper>
+        )}
+    >
+        <Tab.Screen name="Home" component={HomePage} options={{ headerShown: false }} />
+        <Tab.Screen name="Discover" component={DishesStackScreens} options={{ headerShown: false }} />
+        <Tab.Screen
+            name="Center"
+            component={HomePage}
+            options={{
+                tabBarLabel: '',
+                tabBarButton: () => (
+                    <MultiBarButton
+                        style={{
+                            backgroundColor: '#E24E1B'
+                        }}
+                    >
+                        <MaterialIcons
+                            name="add"
+                            style={{
+                                fontSize: 32,
+                                color: '#EDF2F4'
+                            }}
+                        />
+                    </MultiBarButton>
+                )
+            }}
+        />
+        <Tab.Screen name="Leaderboard" component={Welcome} options={{ headerShown: false }} />
+        <Tab.Screen name="Profile" component={ProfileStackScreens} options={{ headerShown: false }} />
+    </Tab.Navigator>
+);
+
 
 const DishesStackScreens = () => (
     <DishesStack.Navigator
