@@ -28,14 +28,10 @@ function BottomTabNavigator() {
             data={[
                 () => (
                     <TouchIcon
-                        name="chevron-left"
+                        name="heart"
                         color="#E24E1B"
                         size={25}
-                        onPress={() => {
-                            if (navigation.canGoBack()) {
-                                navigation.goBack();
-                            }
-                        }}
+                        onPress={() => navigation.navigate('FavoriteFood')}
                     />
                 ),
                 () => (
