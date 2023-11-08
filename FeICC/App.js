@@ -30,7 +30,6 @@ export default function App() {
 
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
-
             <NavigationContainer independent={true}>
                 <Stack.Navigator
                     initialRouteName="ONBROADING"
@@ -49,7 +48,8 @@ export default function App() {
                     <Stack.Screen name="CONFIRMOTP" component={ConfirmOTP} options={{ headerShown: false }} />
                     <Stack.Screen name="SIGNUP" component={SignUpNew} options={{ headerShown: false }} />
                     <Stack.Screen name="HOMEPAGE" component={HomePage} options={{ headerShown: false }} />
-                    <Stack.Screen name="NOTIFICATION" component={Notification} options={{ title: 'Thông báo' }} />                    <Stack.Screen name="DishesDetail" component={DishDetail} options={{ headerShown: false }} />
+                    <Stack.Screen name="NOTIFICATION" component={Notification} options={{ title: 'Thông báo' }} />
+                    <Stack.Screen name="DishesDetail" component={DishDetail} options={{ headerShown: false }} />
                     <Stack.Screen name="Dishes" component={Dishes} options={{ headerShown: false }} />
 
                     <Stack.Screen name="Tutorial" component={Tutorial} options={{ headerShown: false }} />
