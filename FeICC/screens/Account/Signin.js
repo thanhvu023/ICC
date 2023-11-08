@@ -112,7 +112,7 @@ export default function Signin() {
                 >
                     <Text>Bạn quên mật khẩu?</Text>
                 </Pressable>
-
+                {/* 
                 <Text
                     style={{
                         marginTop: 20,
@@ -174,7 +174,7 @@ export default function Signin() {
                     >
                         Đăng nhập với Facebook
                     </Text>
-                </Pressable>
+                </Pressable> */}
             </View>
         </SafeAreaView>
     );
