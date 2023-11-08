@@ -65,7 +65,7 @@ function Profile() {
                     <Text>Món ăn yêu thích</Text>
                 </TouchableOpacity>
             </View>
-            <View style={styles.notiBox}>
+            {/* <View style={styles.notiBox}>
                 <View onPress={showDevelopmentAlert} style={styles.notiContent}>
                     <Image
                         source={require('../../assets/ProfileIcon/noti.png')}
@@ -81,7 +81,7 @@ function Profile() {
                         resizeMode="contain"
                     />
                 </TouchableOpacity>
-            </View>
+            </View> */}
             <View style={styles.notiBox}>
                 <View style={styles.notiContent}>
                     <Image

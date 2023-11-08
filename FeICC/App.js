@@ -1,4 +1,4 @@
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
@@ -21,11 +21,15 @@ import QR from './screens/Premium/QR';
 import HomePage from './screens/HomePage/HomePage';
 import FavoriteFood from './screens/FavoriteFood/FavoriteFood';
 import MyMeal from './screens/MyMeal/MyMeal';
+import { MultiBarProvider } from 'react-native-multibar-crosslisting';
+import { TouchIcon } from './components/TouchIcon';
 export default function App() {
     const Stack = createNativeStackNavigator();
+
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
-            <NavigationContainer>
+
+            <NavigationContainer independent={true}>
                 <Stack.Navigator
                     initialRouteName="ONBROADING"
                     screenOptions={{
