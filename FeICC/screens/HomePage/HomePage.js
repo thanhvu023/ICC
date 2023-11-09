@@ -6,9 +6,14 @@ import Icon from '@expo/vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 
 const categories = [
-    { name: 'Sáng', icon: 'coffee' },
-    { name: 'Trưa', icon: 'cutlery' },
-    { name: 'Tối', icon: 'anchor' },
+    { name: 'Truyền thống', icon: 'coffee' },
+    { name: 'Món chiên', icon: 'cutlery' },
+    { name: 'Hải sản', icon: 'anchor' },
+    { name: 'Ăn vặt', icon: 'heart' },
+    { name: 'Mỳ và phở', icon: 'spoon' },
+    { name: 'Ăn kiêng', icon: 'leaf' },
+    { name: 'Làm bánh', icon: 'birthday-cake' },
+    { name: 'Quốc tế', icon: 'globe' },
 ];
 
 function HomePage() {
@@ -146,7 +151,7 @@ function HomePage() {
                     <Text style={styles.title}>Danh mục</Text>
                     <View style={styles.categoryContainer}>
                         <View style={styles.row}>
-                            {categories.slice(0, 3).map((category, index) => (
+                            {categories.slice(0, 4).map((category, index) => (
                                 <TouchableOpacity key={index} style={styles.categoryItem}>
                                     <Icon name={category.icon} size={24} color="black" />
                                     <Text style={styles.categoryText}>{category.name}</Text>
@@ -224,7 +229,7 @@ function HomePage() {
                                                 style={{ marginRight: 2 }}
                                                 source={require('../../assets/Dishes/kcal.png')}
                                             />
-                                            <Text style={{ color: 'white' }}>{item.energy} calories </Text>
+                                            <Text style={{ color: 'white' }}>{item.energy}: Calories </Text>
                                         </View>
                                     </View>
                                 </View>
