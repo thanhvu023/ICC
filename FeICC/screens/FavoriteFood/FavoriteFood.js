@@ -1,9 +1,46 @@
 import { View, Text, TextInput, ScrollView, TouchableOpacity } from 'react-native';
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Image } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const FavoriteFood = () => {
+    const [listFoodData, setListFoodData] = useState([]);
+    const getListFoodData = async (token) => {
+        try {
+            const response = await fetch('https://exe201-icc.azurewebsites.net/api/Recipe/get-all', {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            // console.log('token là:', token);
+            // console.log('response:', response);
+            if (response.ok) {
+                const responseData = await response.json();
+
+                setListFoodData(responseData);
+            }
+        } catch (error) {
+            console.error('Lỗi khi gọi API:', error);
+        }
+    };
+    const getAuthTokenFromStorage = async () => {
+        try {
+            const token = await AsyncStorage.getItem('token');
+
+            setToken(token);
+            if (token) {
+                getListFoodData(token);
+            }
+        } catch (error) {
+            console.error('Lỗi khi lấy token từ AsyncStorage:', error);
+        }
+    };
+    useEffect(() => {
+        getAuthTokenFromStorage();
+    }, []);
     const foodData = [
         {
             id: 1,
@@ -88,55 +125,96 @@ const FavoriteFood = () => {
                             <Image source={require('../../assets/Dishes/Filter.png')} />
                         </TouchableOpacity>
                     </View>
-                    {foodData.map((food) => (
-                        <View key={food.id} style={{ marginVertical: 7 }}>
-                            <View
+                    {listFoodData.slice(0, 4).map((item) => (
+                        <TouchableOpacity
+                            style={{
+                                margin: 2,
+                                height: 82,
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                justifyContent: 'flex-start',
+                                borderRadius: 8,
+                                backgroundColor: 'white',
+                                shadowColor: 'black',
+                                shadowOffset: { width: 0, height: 2 },
+                                shadowOpacity: 0.2,
+                                shadowRadius: 4,
+                                elevation: 2,
+                            }}
+                            key={item.id}
+                            onPress={() => navigation.navigate('DishesDetail', { itemData: item })}
+                        >
+                            <Image
                                 style={{
-                                    width: '100%',
-                                    height: 100,
+                                    height: 52,
+                                    width: 52,
+                                    resizeMode: 'cover',
+                                    marginLeft: 8,
                                     borderRadius: 8,
-                                    borderWidth: 0.4,
-                                    flexDirection: 'row',
-                                    alignItems: 'center',
-                                    backgroundColor: '#FFFFFF',
-                                    paddingLeft: 10,
-                                    borderColor: '#48525F',
                                 }}
-                            >
-                                <View>
-                                    <Image source={food?.image} />
+                                source={{
+                                    uri: item.imgLink,
+                                }}
+                            ></Image>
+                            <View style={{ paddingLeft: 12 }}>
+                                <Text>{item.name}</Text>
+                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                    <Image
+                                        style={{ marginRight: 2 }}
+                                        source={require('../../assets/Star.png')}
+                                        resizeMode="contain"
+                                    ></Image>
+                                    <Text style={{ marginRight: 4 }}>4.5</Text>
+                                    <Image
+                                        style={{ marginRight: 2 }}
+                                        source={require('../../assets/Dishes/TimeCircleDishes.png')}
+                                        resizeMode="contain"
+                                    ></Image>
+                                    <Text>{item.cookingTime}</Text>
                                 </View>
-                                <View style={{ marginLeft: 10 }}>
-                                    <Text style={{ fontWeight: 500 }}>{food.name}</Text>
-                                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                            <Image source={require('../../assets/Star.png')} />
-                                            <Text> {food.rating}</Text>
-                                        </View>
-                                        <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 20 }}>
-                                            <Image source={require('../../assets/TimeCircle.png')} />
-                                            <Text> {food.time}</Text>
-                                        </View>
+                                <View style={{ flexDirection: 'row' }}>
+                                    <View style={styles.tagView}>
+                                        <Text
+                                            style={{
+                                                marginTop: 1,
+                                                marginBottom: 1,
+                                                marginLeft: 4,
+                                                marginRight: 4,
+                                                color: 'white',
+                                            }}
+                                        >
+                                            {item.energy} cal
+                                        </Text>
                                     </View>
-                                    <View style={{ flexDirection: 'row' }}>
-                                        {food.categories.map((category, index) => (
-                                            <Text
-                                                key={index}
-                                                style={{
-                                                    backgroundColor: '#FF7A00',
-                                                    marginRight: 10,
-                                                    paddingHorizontal: 5,
-                                                    borderRadius: 8,
-                                                    color: '#fff',
-                                                }}
-                                            >
-                                                {category}
-                                            </Text>
-                                        ))}
+                                    <View style={styles.tagView}>
+                                        <Text
+                                            style={{
+                                                marginTop: 1,
+                                                marginBottom: 1,
+                                                marginLeft: 4,
+                                                marginRight: 4,
+                                                color: 'white',
+                                            }}
+                                        >
+                                            {item.servingSize} người
+                                        </Text>
+                                    </View>
+                                    <View style={styles.tagView}>
+                                        <Text
+                                            style={{
+                                                marginTop: 1,
+                                                marginBottom: 1,
+                                                marginLeft: 4,
+                                                marginRight: 4,
+                                                color: 'white',
+                                            }}
+                                        >
+                                            {item.meals}
+                                        </Text>
                                     </View>
                                 </View>
                             </View>
-                        </View>
+                        </TouchableOpacity>
                     ))}
                 </View>
             </View>
