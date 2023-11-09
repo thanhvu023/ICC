@@ -22,6 +22,11 @@ function Profile() {
             { cancelable: false },
         );
     };
+
+    const notificationPage = () => {
+        navigation.navigate('NOTIFICATION');
+    };
+
     return (
         <View style={styles.container}>
             <View style={styles.profileBox}>
@@ -40,7 +45,7 @@ function Profile() {
                 <Text style={styles.premiumComment}>Và nhận 1000+ món ăn mới</Text>
             </View>
             <View style={styles.myDishesBox}>
-                <TouchableOpacity onPress={showDevelopmentAlert} style={styles.myDishesButton}>
+                <TouchableOpacity onPress={() => navigation.navigate('MyMeal')} style={styles.myDishesButton}>
                     <Image
                         source={require('../../assets/ProfileIcon/myDishes.png')}
                         style={styles.buttonDishes}
@@ -48,7 +53,10 @@ function Profile() {
                     />
                     <Text>Bữa ăn của tôi</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={showDevelopmentAlert} style={styles.favoriteDishesButton}>
+                <TouchableOpacity
+                    onPress={() => navigation.navigate('FavoriteFood')}
+                    style={styles.favoriteDishesButton}
+                >
                     <Image
                         source={require('../../assets/ProfileIcon/favoriteDishes.png')}
                         style={styles.buttonDishes}
@@ -57,7 +65,7 @@ function Profile() {
                     <Text>Món ăn yêu thích</Text>
                 </TouchableOpacity>
             </View>
-            <View style={styles.notiBox}>
+            {/* <View style={styles.notiBox}>
                 <View onPress={showDevelopmentAlert} style={styles.notiContent}>
                     <Image
                         source={require('../../assets/ProfileIcon/noti.png')}
@@ -66,14 +74,14 @@ function Profile() {
                     />
                     <Text style={styles.notiTextContent}>Thông báo</Text>
                 </View>
-                <TouchableOpacity onPress={showDevelopmentAlert} style={styles.buttonDetail}>
+                <TouchableOpacity onPress={notificationPage} style={styles.buttonDetail}>
                     <Image
                         source={require('../../assets/arrowRight.png')}
                         style={styles.buttonDetail}
                         resizeMode="contain"
                     />
                 </TouchableOpacity>
-            </View>
+            </View> */}
             <View style={styles.notiBox}>
                 <View style={styles.notiContent}>
                     <Image
@@ -222,6 +230,7 @@ const styles = StyleSheet.create({
     },
     notiContent: {
         flexDirection: 'row',
+        alignItems: 'center',
     },
     notiTextContent: {
         fontSize: 16,
