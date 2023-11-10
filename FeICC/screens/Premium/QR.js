@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function QR() {
     const qrData = 'https://www.facebook.com/thanhvu.huynh.39904/';
     const navigation = useNavigation();
-    const qrImage = require('../../assets/qr.png');
+    const qrImage = require('../../assets/QrThanhTuan.jpg');
     const checkAsyncStorage = async () => {
         try {
             const data = await AsyncStorage.getItem('token');

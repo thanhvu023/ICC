@@ -7,6 +7,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const FavoriteFood = () => {
     const [listFoodData, setListFoodData] = useState([]);
+    const [token, setToken] = useState(null);
+    const navigation = useNavigation();
+
     const getListFoodData = async (token) => {
         try {
             const response = await fetch('https://exe201-icc.azurewebsites.net/api/Recipe/get-all', {
